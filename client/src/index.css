@@ -1,11 +1,47 @@
+:root{
+  --fontePrincipal: "Barlow", serif;
+  --corPrimaria: #0A3871;
+  --corSecundaria: #3A97D9;
+  --corTexto: #0C2856;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--fontePrincipal);
+  color: var(--corTexto);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+input, fieldset, select{
+  outline: none;
+  border: 2px solid var(--corPrimaria);
+  border-radius: 8px;
+  color: var(--corTexto);
+}
+
+input, select{
+  padding: .5rem;
+}
+
+button{
+  cursor: pointer;
+  padding: .5rem;
+  border: transparent;
+  border-radius: 8px;
+  background-color: var(--corSecundaria);
+  color: white;
+  
+}
+
+button:hover{
+  background-color: var(--corPrimaria);
+  color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+  
+}
+
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
