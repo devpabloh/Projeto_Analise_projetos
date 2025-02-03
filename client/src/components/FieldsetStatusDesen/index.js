@@ -1,4 +1,5 @@
 import { useState } from "react"
+import styles from "./FieldsetStatusDesen.module.css"
 
 const FieldsetStatusDesen = () => {
     const [nomeProjeto, setNomeProjeto] = useState('');
@@ -8,7 +9,7 @@ const FieldsetStatusDesen = () => {
     
 
     return(
-        <fieldset>
+        <fieldset className={styles.containerFieldset}>
                             <legend>Status de desenvolvimento</legend>
                             <div>
                             <label>Nome do projeto</label>
