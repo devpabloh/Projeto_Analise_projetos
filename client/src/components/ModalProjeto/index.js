@@ -3,6 +3,8 @@ import styles from './ModalProjeto.module.css'
 import FieldsetInfoGerais from "../FieldsetInfoGerais";
 import FieldsetStatusDesen from '../FieldsetStatusDesen';
 import FieldSetTecUtili from "../FieldsetTecUtili";
+import FieldsetMetodologiaAplicada from "../FieldsetMetodologiaAplicada";
+import FieldsetTestesEQualidade from "../FieldsetTestesEQualidade";
 
 const ModalProjeto = ({fecharModal, adicionarProjeto}) => {
     
@@ -28,6 +30,8 @@ const ModalProjeto = ({fecharModal, adicionarProjeto}) => {
                         <FieldsetInfoGerais/>
                         <FieldsetStatusDesen/>
                         <FieldSetTecUtili/>
+                        <FieldsetMetodologiaAplicada/>
+                        <FieldsetTestesEQualidade/>
                     </fieldset>
                     <div>
                         <button
