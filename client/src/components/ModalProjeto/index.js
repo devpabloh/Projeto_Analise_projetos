@@ -5,6 +5,8 @@ import FieldsetStatusDesen from '../FieldsetStatusDesen';
 import FieldSetTecUtili from "../FieldsetTecUtili";
 import FieldsetMetodologiaAplicada from "../FieldsetMetodologiaAplicada";
 import FieldsetTestesEQualidade from "../FieldsetTestesEQualidade";
+import FieldsetAmbienteImplem from "../FieldsetAmbienteImplem";
+import FieldsetDocumentacao from "../FieldsetDocumentacao";
 
 const ModalProjeto = ({fecharModal, adicionarProjeto}) => {
     
@@ -32,6 +34,9 @@ const ModalProjeto = ({fecharModal, adicionarProjeto}) => {
                         <FieldSetTecUtili/>
                         <FieldsetMetodologiaAplicada/>
                         <FieldsetTestesEQualidade/>
+                        <FieldsetAmbienteImplem/>
+                        <FieldsetDocumentacao/>
+    
                     </fieldset>
                     <div>
                         <button
