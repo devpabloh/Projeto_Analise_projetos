@@ -14,8 +14,8 @@ const SelectBancoDeDados = () => {
 
     return (
         <div>
-            <label>Banco de dados</label>
-            <select name="bancoDeDados" value={tecnologiasBancoDeDados} onChange={(evento)=> setTecnologiasBancoDeDados(evento.target.value)} required>
+            <label htmlFor="bancoDeDados">Banco de dados</label>
+            <select name="bancoDeDados" id="bancoDeDados" value={tecnologiasBancoDeDados} onChange={(evento)=> setTecnologiasBancoDeDados(evento.target.value)} required>
                 <option value="" disabled>Selecione o status</option>
                 {ObjetoTecnologiasBancoDeDados.map((tecnologia) => (
                     <option key={tecnologia.value} value={tecnologia.value}>

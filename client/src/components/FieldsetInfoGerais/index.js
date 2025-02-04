@@ -13,40 +13,44 @@ const FieldsetInfoGerais = () => {
     <fieldset className={styles.containerFieldset}>
       <legend>Informações gerais</legend>
       <div>
-        <label>Responsável</label>
+        <label htmlFor="nomeResponsavel">Responsável</label>
         <input
           type="text"
           name="nomeResponsavel"
+          id="nomeResponsavel"
           value={nomeResponsavel}
           onChange={(evento) => setNomeResponsavel(evento.target.value)}
           required
         />
       </div>
       <div>
-        <label>Cargo</label>
+        <label htmlFor="cargo">Cargo</label>
         <input
           type="text"
           name="cargo"
+          id="cargo"
           value={cargo}
           onChange={(evento) => setCargo(evento.target.value)}
           required
         />
       </div>
       <div>
-        <label>Telefone</label>
+        <label htmlFor="telefone">Telefone</label>
         <input
           type="tel"
           name="telefone"
+          id="telefone"
           value={telefone}
           onChange={(evento) => setTelefone(evento.target.value)}
           required
         />
       </div>
       <div>
-        <label>E-mail</label>
+        <label htmlFor="email">E-mail</label>
         <input
           type="email"
           name="email"
+          id="email"
           value={email}
           onChange={(evento) => setEmail(evento.target.value)}
           required

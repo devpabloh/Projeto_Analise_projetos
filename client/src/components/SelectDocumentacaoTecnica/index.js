@@ -3,6 +3,7 @@ import {useState} from "react"
 const SelectDocumentacaoTecnica = () => {
     const [documentacaoTecnica, setDocumentacaoTecnica] = useState('');
     const [selectedOptions, setSelectedOptions] = useState([]);
+    const [outrosDocumentosTecnicos, setOutrosDocumentosTecnicos] = useState('');
 
     const handleSelectChange = (event) => {
         const value = event.target.value;
@@ -17,8 +18,8 @@ const SelectDocumentacaoTecnica = () => {
 
     return(
         <div>
-            <label>O projeto possui documentação tecnica ?</label>
-            <select name="documentacaoTecnica" value={documentacaoTecnica} onChange={(evento)=> setDocumentacaoTecnica(evento.target.value)} required>
+            <label htmlFor="documentacaoTecnica">O projeto possui documentação tecnica ?</label>
+            <select name="documentacaoTecnica" id="documentacaoTecnica" value={documentacaoTecnica} onChange={(evento)=> setDocumentacaoTecnica(evento.target.value)} required>
                 <option value="" disabled>Selecione uma opção</option>
                 <option value="sim">Sim</option>
                 <option value="nao">Não</option>
@@ -26,20 +27,34 @@ const SelectDocumentacaoTecnica = () => {
 
             {documentacaoTecnica === "sim" && 
                 <div>
-                    <select multiple value={selectedOptions} onChange={handleSelectChange}>
-                        <option value="arquiteturaDoSistema">Arquitetura do sistema</option>
-                        <option value="estruturaDeBancoDeDados">Estrutura de Banco de Dados</option>
-                        <option value="documentacaoDeAPIs">Documentação de APIs</option>
-                        <option value="manualDoUsuario">Manual do usuário</option>
-                        <option value="outros">Outros</option>
-                    </select>
+                    <label htmlFor="qualDocumentacaoTecnica">Quais tipos de documentação tecnica ?</label>
+                    <label>
+                        <input type="checkbox" value="arquiteturaDoSistema" onChange={handleSelectChange} checked={selectedOptions.includes("arquiteturaDoSistema")} />
+                        Arquitetura do sistema
+                    </label>
+                    <label>
+                        <input type="checkbox" value="estruturaDeBancoDeDados" onChange={handleSelectChange} checked={selectedOptions.includes("estruturaDeBancoDeDados")} />
+                        Estrutura de Banco de Dados
+                    </label>
+                    <label>
+                        <input type="checkbox" value="documentacaoDeAPIs" onChange={handleSelectChange} checked={selectedOptions.includes("documentacaoDeAPIs")} />
+                        Documentação de APIs
+                    </label>
+                    <label>
+                        <input type="checkbox" value="manualDoUsuario" onChange={handleSelectChange} checked={selectedOptions.includes("manualDoUsuario")} />
+                        Manual do usuário
+                    </label>
+                    <label>
+                        <input type="checkbox" value="outros" onChange={handleSelectChange} checked={selectedOptions.includes("outros")} />
+                        Outros
+                    </label>
                 </div>
             }
 
             {selectedOptions.includes("outros") && 
                 <div>
                     <label htmlFor="outros">Quais documentos ?</label>
-                    <input type="text" name="outros" id="outros" />
+                    <input type="text" name="outros" id="outros" value={outrosDocumentosTecnicos} onChange={(evento)=> setOutrosDocumentosTecnicos(evento.target.value)} />
                 </div>}
 
         </div>

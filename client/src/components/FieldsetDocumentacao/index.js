@@ -1,4 +1,5 @@
 import SelectDocumentacaoTecnica from "../SelectDocumentacaoTecnica";
+import SelectDocAtualizado from "../SelectDocAtuali";
 
 
 const FieldsetDocumentacao = () => {
@@ -7,6 +8,7 @@ const FieldsetDocumentacao = () => {
         <fieldset>
             <legend>Documentação</legend>
             <SelectDocumentacaoTecnica/>
+            <SelectDocAtualizado/>
             
         </fieldset>
     )

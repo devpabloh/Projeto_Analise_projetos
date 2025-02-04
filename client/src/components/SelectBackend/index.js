@@ -14,8 +14,8 @@ const SelectBackend = () => {
 
     return (
         <div>
-        <label>Back-end</label>
-        <select name="backend" value={tecnologiasBackend} onChange={(evento)=> setTecnologiasBackend(evento.target.value)} required>
+        <label  htmlFor="backend">Back-end</label>
+        <select name="backend" id="backend" value={tecnologiasBackend} onChange={(evento)=> setTecnologiasBackend(evento.target.value)} required>
             <option value="" disabled>Selecione o status</option>
             {ObjetoTecnologiasBackend.map((tecnologia) => (
                 <option key={tecnologia.value} value={tecnologia.value}>

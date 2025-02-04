@@ -13,8 +13,8 @@ const SelectApis = () => {
 
     return(
         <div>
-            <label>APIs</label>
-            <select name="tecnologiasAPIs" value={tecnologiasAPIs} onChange={(evento)=> setTecnologiasAPIs(evento.target.value)} required>
+            <label htmlFor="tecnologiasAPIs">APIs</label>
+            <select name="tecnologiasAPIs" id="tecnologiasAPIs" value={tecnologiasAPIs} onChange={(evento)=> setTecnologiasAPIs(evento.target.value)} required>
                 <option value="" disabled>Selecione o status</option>
                 {ObjetoTecnologiasAPIs.map((api)=>(
                     <option value={api.value}>{api.value}</option>

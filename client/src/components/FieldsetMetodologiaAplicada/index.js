@@ -16,8 +16,8 @@ const FieldsetMetodologiaAplicada = () => {
         <fieldset>
             <legend>Metodologia aplicada</legend>
             <div>
-            <label>Qual a metodologia aplicada?</label>
-            <select name="metodologiaAplicada" value={metodologiaAplicada} onChange={(evento)=> setMetodologiaAplicada(evento.target.value)} required>
+            <label htmlFor="metodologiaAplicada">Qual a metodologia aplicada?</label>
+            <select name="metodologiaAplicada" id="metodologiaAplicada" value={metodologiaAplicada} onChange={(evento)=> setMetodologiaAplicada(evento.target.value)} required>
                 <option value="" disabled>Selecione o status</option>
                 {ObjetoMetodologiaAplicada.map((metodologia) => (
                     <option key={metodologia.value} value={metodologia.value}>
