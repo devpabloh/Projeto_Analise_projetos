@@ -27,7 +27,7 @@ const SelectDocumentacaoTecnica = () => {
 
             {documentacaoTecnica === "sim" && 
                 <div>
-                    <label htmlFor="qualDocumentacaoTecnica">Quais tipos de documentação tecnica ?</label>
+                    <label>Quais tipos de documentação tecnica ?</label>
                     <label>
                         <input type="checkbox" value="arquiteturaDoSistema" onChange={handleSelectChange} checked={selectedOptions.includes("arquiteturaDoSistema")} />
                         Arquitetura do sistema

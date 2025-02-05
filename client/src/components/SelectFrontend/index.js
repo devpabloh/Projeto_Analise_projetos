@@ -19,6 +19,7 @@ const SelectFrontend = () => {
                 <option value="" disabled>Selecione o status</option>
                 {ObjetoTecnologiasFrontEnd.map((tecnologia) => (
                     <option key={tecnologia.value} value={tecnologia.value}>
+                        {tecnologia.label}
                     </option>
                 ))}
             </select>
