@@ -1,11 +1,13 @@
-.containerFieldset{
+.containerFieldsetEquipeESuporte{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     flex-direction: row;
     flex-wrap: wrap;
+    
 }
 
-.containerFieldset div{
+.containerFieldsetEquipeESuporte div{
     display: flex;
     align-items: center;
     gap: var(--gapPequeno);

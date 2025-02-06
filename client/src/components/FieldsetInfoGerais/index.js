@@ -1,61 +1,52 @@
 import { useState } from "react";
 import styles from "./FieldsetInfoGerais.module.css";
+import FieldsetResponsavelPreenchimento from "../FieldsetResponsavelPreenchimento";
 
 const FieldsetInfoGerais = () => {
     /* Hook - useState */
-    const [nomeResponsavel, setNomeResponsavel] = useState('');
-    const [cargo, setCargo] = useState('');
-    const [telefone, setTelefone] = useState('');
-    const [email, setEmail] = useState('');
+    const [nomeProjeto, setNomeProjeto] = useState('');
+    const [descricaoResumida, setDescricaoResumida] = useState('');
+    const [dataPreenchimento, setDataPreenchimento] = useState('');
 
 
   return (
     <fieldset className={styles.containerFieldset}>
-      <legend>Informações gerais</legend>
+      <legend>Informações gerais do projeto</legend>
       <div>
-        <label htmlFor="nomeResponsavel">Responsável</label>
+        <label htmlFor="nomeProjeto">Nome do projeto</label>
         <input
           type="text"
-          name="nomeResponsavel"
-          id="nomeResponsavel"
-          value={nomeResponsavel}
-          onChange={(evento) => setNomeResponsavel(evento.target.value)}
+          name="nomeProjeto"
+          id="nomeProjeto"
+          value={nomeProjeto}
+          onChange={(evento) => setNomeProjeto(evento.target.value)}
           required
         />
       </div>
       <div>
-        <label htmlFor="cargo">Cargo</label>
+        <label htmlFor="descricaoResumida">Descrição resumida</label>
         <input
           type="text"
-          name="cargo"
-          id="cargo"
-          value={cargo}
-          onChange={(evento) => setCargo(evento.target.value)}
+          name="descricaoResumida"
+          id="descricaoResumida"
+          value={descricaoResumida}
+          onChange={(evento) => setDescricaoResumida(evento.target.value)}
           required
         />
       </div>
       <div>
-        <label htmlFor="telefone">Telefone</label>
+        <label htmlFor="dataPreenchimento">Data de preenchimento</label>
         <input
-          type="tel"
-          name="telefone"
-          id="telefone"
-          value={telefone}
-          onChange={(evento) => setTelefone(evento.target.value)}
+          type="date"
+          name="dataPreenchimento"
+          id="dataPreenchimento"
+          value={dataPreenchimento}
+          onChange={(evento) => setDataPreenchimento(evento.target.value)}
           required
         />
       </div>
-      <div>
-        <label htmlFor="email">E-mail</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          value={email}
-          onChange={(evento) => setEmail(evento.target.value)}
-          required
-        />
-      </div>
+      <FieldsetResponsavelPreenchimento/>
+      
     </fieldset>
   );
 };

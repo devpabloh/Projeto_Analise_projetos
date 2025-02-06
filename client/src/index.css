@@ -3,6 +3,10 @@
   --corPrimaria: #0A3871;
   --corSecundaria: #3A97D9;
   --corTexto: #0C2856;
+  --gapPequeno: .3rem;
+  --gapMedio: 1rem;
+  --gapGrande: 1.5rem;
+  --paddingButton: 1rem;
 }
 
 body {
@@ -22,6 +26,14 @@ input, fieldset, select{
 
 input, select{
   padding: .5rem;
+}
+
+fieldset{
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--gapGrande);
+  padding: 1rem;
 }
 
 button{

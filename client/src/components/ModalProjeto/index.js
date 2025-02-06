@@ -1,5 +1,7 @@
-
+/* importando CSS */
 import styles from './ModalProjeto.module.css'
+
+/* importando os componentes */
 import FieldsetInfoGerais from "../FieldsetInfoGerais";
 import FieldsetStatusDesen from '../FieldsetStatusDesen';
 import FieldSetTecUtili from "../FieldsetTecUtili";
@@ -41,7 +43,7 @@ const ModalProjeto = ({fecharModal, adicionarProjeto}) => {
                         <FieldsetEquipeESuporte/>
                         <FieldsetSegurancaEConformidade/>
                     </fieldset>
-                    <div>
+                    <div className={styles.containerBotoesModal}>
                         <button
                             type="button"
                             onClick={()=> fecharModal()}

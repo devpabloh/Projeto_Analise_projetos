@@ -1,0 +1,39 @@
+.containerHeader{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem 0 2rem 5rem;
+    background-color: #7ec6fa;
+}
+
+.containerHeader img{
+    height: 6rem;
+    transition: transform 1.5s ease-in-out;
+    cursor: pointer;
+    margin-right: 6rem;
+}
+
+.containerHeader img:hover{
+    animation: rotate 1.5s forwards;
+    
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotateY(0deg);
+    }
+    50%{
+        transform: rotateY(180deg);
+    }
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+
+.containerHeader span{
+    font-size: 1.5rem;
+    color: white;
+    text-shadow: 0 0 1px black, 0 0 10px black;
+    
+}

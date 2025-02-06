@@ -1,31 +1,15 @@
-import { useState } from "react";
+
+/* Importando o CSS utilizando o SCSS */
+import styles from "./FieldsetMetodologiaAplicada.module.css"
+
+import SelectQualMetodologiaAplicada from "../SelectQualMetodologiaAplicada"
 
 const FieldsetMetodologiaAplicada = () => {
-    
-    const [metodologiaAplicada, setMetodologiaAplicada] = useState([]);
 
-    const ObjetoMetodologiaAplicada = [
-        { value: "react", label: "React" },
-        { value: "vue", label: "Vue.js" },
-        { value: "angular", label: "Angular" },
-        { value: "svelte", label: "Svelte" },
-        { value: "html", label: "HTML" },
-        { value: "css", label: "CSS" }
-    ];
     return (
-        <fieldset>
+        <fieldset className={styles.containerFieldsetMetodologiaAplicada}>
             <legend>Metodologia aplicada</legend>
-            <div>
-            <label htmlFor="metodologiaAplicada">Qual a metodologia aplicada?</label>
-            <select name="metodologiaAplicada" id="metodologiaAplicada" value={metodologiaAplicada} onChange={(evento)=> setMetodologiaAplicada(evento.target.value)} required>
-                <option value="" disabled>Selecione o status</option>
-                {ObjetoMetodologiaAplicada.map((metodologia) => (
-                    <option key={metodologia.value} value={metodologia.value}>
-                        {metodologia.label}
-                    </option>
-                ))}
-            </select>
-            </div>
+            <SelectQualMetodologiaAplicada/>
             
         </fieldset>
     )

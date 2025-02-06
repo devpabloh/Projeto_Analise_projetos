@@ -1,5 +1,11 @@
+
+/* importando os hooks */
 import { useState } from "react"
+
+/* importando componentes */
 import SelectQuaisNormasConform from "../SelectQuaisNormasConform"
+
+import styles from "./SelectNormaConformidade.module.css"
 
 const SelectNormaConformidade = () => {
 
@@ -10,8 +16,8 @@ const SelectNormaConformidade = () => {
     };
 
     return(
-        <div>
-            <label>Norma de conformidade</label>
+        <div className={styles.containerSelectNormaConformidade}>
+            <label>Projeto atende alguma norma de conformidade?</label>
             <select name="normaConformidade" value={normaConformidade} onChange={(e)=> handleChange(e)}>
                 <option value="" disabled selected  >Selecione uma opção</option>
                 <option value="sim">Sim</option>

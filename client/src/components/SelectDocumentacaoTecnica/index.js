@@ -1,4 +1,9 @@
+
+/* Importando hooks */
 import {useState} from "react"
+
+/* Importando css */
+import styles from "./SelectDocumentacaoTecnica.module.css"
 
 const SelectDocumentacaoTecnica = () => {
     const [documentacaoTecnica, setDocumentacaoTecnica] = useState('');
@@ -17,7 +22,7 @@ const SelectDocumentacaoTecnica = () => {
     };
 
     return(
-        <div>
+        <div className={styles.containerSelectDocumentacaoTecnica}>
             <label htmlFor="documentacaoTecnica">O projeto possui documentação tecnica ?</label>
             <select name="documentacaoTecnica" id="documentacaoTecnica" value={documentacaoTecnica} onChange={(evento)=> setDocumentacaoTecnica(evento.target.value)} required>
                 <option value="" disabled>Selecione uma opção</option>
@@ -26,7 +31,7 @@ const SelectDocumentacaoTecnica = () => {
             </select>
 
             {documentacaoTecnica === "sim" && 
-                <div>
+                <div className={styles.containerCheckboxes}>
                     <label>Quais tipos de documentação tecnica ?</label>
                     <label>
                         <input type="checkbox" value="arquiteturaDoSistema" onChange={handleSelectChange} checked={selectedOptions.includes("arquiteturaDoSistema")} />

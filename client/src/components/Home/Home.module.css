@@ -1,3 +1,7 @@
-.container{
+.containerHome{
     padding: 6rem;
+}
+
+.containerHome button{
+    padding: var(--paddingButton);
 }

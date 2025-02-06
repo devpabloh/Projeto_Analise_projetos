@@ -2,26 +2,23 @@ import { useState } from "react"
 import styles from "./FieldsetStatusDesen.module.css"
 
 const FieldsetStatusDesen = () => {
-    const [nomeProjeto, setNomeProjeto] = useState('');
     const [dataInicial, setDataInicial] = useState('');
     const [dataFinal, setDataFinal] = useState('');
     const [status, setStatus] = useState('');
-    
+
+    const objetoStatusDesenvolvimento = [
+        { value: "inicio", label: "Ideia / iniciação"},
+        { value: "desenvolvimento", label:"Desenvolvimento"},
+        { value: "testes", label:"Testes"},
+        { value: "homologacao", label:"Homologação"},
+        { value: "producao", label:"Produção"},
+        { value: "Encerrado", label:"Encerrado"},
+
+    ]
 
     return(
         <fieldset className={styles.containerFieldset}>
-                            <legend>Status de desenvolvimento</legend>
-                            <div>
-                            <label  htmlFor="nomeProjeto">Nome do projeto</label>
-                            <input
-                                type="text"
-                                name="nomeprojeto"
-                                id="nomeProjeto"
-                                value={nomeProjeto}
-                                onChange={(evento)=> setNomeProjeto(evento.target.value)}
-                                required
-                            />
-                        </div>
+                        <legend>Status de desenvolvimento</legend>
                         <div>
                             <label  htmlFor="dataInicial">Inicio do projeto</label>
                             <input
@@ -48,12 +45,9 @@ const FieldsetStatusDesen = () => {
                             <label  htmlFor="status">Status</label>
                             <select name="status" id="status" value={status} onChange={(evento)=> setStatus(evento.target.value)} required>
                                 <option value="" disabled>Selecione o status</option>
-                                <option value="inicio">Ideia / iniciação</option>
-                                <option value="desenvolvimento">Desenvolvimento</option>
-                                <option value="testes">Testes</option>
-                                <option value="homologacao">Homologação</option>
-                                <option value="producao">Produção</option>
-                                <option value="Encerrado">Encerrado</option>
+                                {objetoStatusDesenvolvimento.map((status)=>(
+                                    <option value={status.value}>{status.label}</option>
+                                ))}
                             </select>
                         </div>
         </fieldset>

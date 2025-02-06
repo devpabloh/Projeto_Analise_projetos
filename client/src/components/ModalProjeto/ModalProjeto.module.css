@@ -36,3 +36,14 @@
 .containerFieldset div label{
     margin-right: .3rem;
 }
+
+.containerBotoesModal{
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.containerBotoesModal button{
+    padding: var(--paddingButton);
+}

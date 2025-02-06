@@ -1,3 +1,8 @@
+
+/* Importando o CSS utilizando o SCSS */
+import styles from "./FieldsetDocumentacao.module.css"
+
+/* Importando os componentes */
 import SelectDocumentacaoTecnica from "../SelectDocumentacaoTecnica";
 import SelectDocAtualizado from "../SelectDocAtuali";
 
@@ -5,7 +10,7 @@ import SelectDocAtualizado from "../SelectDocAtuali";
 const FieldsetDocumentacao = () => {
     
     return(
-        <fieldset>
+        <fieldset className={styles.containerFieldsetDocumentacao}>
             <legend>Documentação</legend>
             <SelectDocumentacaoTecnica/>
             <SelectDocAtualizado/>

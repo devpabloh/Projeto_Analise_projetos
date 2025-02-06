@@ -1,13 +1,19 @@
+/* importando os hooks */
 import { useState } from "react"
 
-import SelectFoiImplementado from "../SelectFoiImplementado"
+/* Importando o CSS utilizando o SCSS */
+import styles from "./SelectImplementado.module.css"
+
+/* Importando os componentes */
+import SelectFoiImplementado from '../SelectFoiImplementado';
+
 
 const SelectImplementado = ()=>{
 
     const [implementado, setImplementado] = useState('')
 
     return(
-        <div>
+        <div className={styles.containerSelectImplementado}>
             <label htmlFor="implementado">O projeto foi implementado em algum ambiente?</label>
             <select name="implementado" id="implementado" value={implementado} onChange={(evento)=> setImplementado(evento.target.value)}  required>
                 <option value="" disabled >Selecione uma opção</option>

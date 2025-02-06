@@ -3,21 +3,21 @@ import { useState } from "react"
 const SelectApis = () => {
     const [tecnologiasAPIs, setTecnologiasAPIs] = useState('');
     const ObjetoTecnologiasAPIs = [
-        { value: "react", label: "React" },
-        { value: "vue", label: "Vue.js" },
-        { value: "angular", label: "Angular" },
-        { value: "svelte", label: "Svelte" },
-        { value: "html", label: "HTML" },
-        { value: "css", label: "CSS" }
+        { value: "apiRest", label: "APIs Rest" },
+        {value: "apiSoap", label: "APIs Soap"},
+        {value: "apiGraphQL", label: "APIs GraphQL"},
+        {value: "apigRPC", label: "APIs gRPC"},
+        {value: "apiWebSocket", label: "APIs WebSocket"},
+        {value: "apiWebhooks", label: "APIs Webhooks"}
     ];
 
     return(
         <div>
             <label htmlFor="tecnologiasAPIs">APIs</label>
             <select name="tecnologiasAPIs" id="tecnologiasAPIs" value={tecnologiasAPIs} onChange={(evento)=> setTecnologiasAPIs(evento.target.value)} required>
-                <option value="" disabled>Selecione o status</option>
+                <option value="" disabled>Selecione uma opção</option>
                 {ObjetoTecnologiasAPIs.map((api)=>(
-                    <option value={api.value}>{api.value}</option>
+                    <option value={api.value}>{api.label}</option>
                 ))}
             </select>
         </div>

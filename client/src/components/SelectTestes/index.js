@@ -1,3 +1,7 @@
+/* Importando o CSS utilizando o SCSS */
+import styles from "./SelectTestes.module.css"
+
+/* importando os hooks */
 import { useState } from "react"
 
 export const SelectTestes = () => {
@@ -11,7 +15,7 @@ export const SelectTestes = () => {
         { value: "performance", label: "Testes de Performance" }
     ];
     return(
-        <div>
+        <div className={styles.containerSelectTestes}>
             <label htmlFor="quaisTestes">Quais testes foram realizados?</label>
             <select name="quaisTestes" id="quaisTestes" value={quaisTestes} onChange={(e) => setQuaisTestes(e.target.value)} required>
                 <option value="" disabled>Selecione o teste</option>
@@ -28,7 +32,7 @@ export const SelectTestes = () => {
 export const PassouPorTestes = ({onchange}) => {
 
     return(
-        <div>
+        <div className={styles.containerSelectTestes}>
             <label htmlFor="passouPorTestes">O projeto já passou por testes?</label>
             <select name="passouPorTestes" id="passouPorTestes" onChange={(e) => onchange(e.target.value)} required>
                 <option value="" disabled selected >Selecione uma opção</option>

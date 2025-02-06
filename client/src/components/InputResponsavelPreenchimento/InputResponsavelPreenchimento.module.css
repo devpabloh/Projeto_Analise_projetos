@@ -1,0 +1,13 @@
+.containerInputResponsavelPreenchimento{
+    
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    gap: var(--gapMedio);
+}
+
+.containerInputResponsavelPreenchimento div{
+    display: flex;
+    gap: var(--gapPequeno);
+    align-items: center;
+}

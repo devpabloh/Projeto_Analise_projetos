@@ -1,0 +1,5 @@
+.containerSelectQualMetodologiaAplicada{
+    display: flex;
+    align-items: center;
+    gap: var(--gapPequeno);
+}

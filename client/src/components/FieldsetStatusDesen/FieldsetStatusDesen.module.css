@@ -1,7 +1,12 @@
 .containerFieldset{
     display: flex;
+    justify-content: space-between;
     flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 2rem;
+}
+
+.containerFieldset div{
+    display: flex;
+    gap: var(--gapPequeno);
+    align-items: center;
+    
 }
