@@ -5,10 +5,13 @@
     justify-content: flex-start;
     padding: 2rem 0 2rem 5rem;
     background-color: #7ec6fa;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.6);
 }
 
 .containerHeader img{
-    height: 6rem;
+    width: 100px;
     transition: transform 1.5s ease-in-out;
     cursor: pointer;
     margin-right: 6rem;
@@ -32,8 +35,8 @@
 }
 
 .containerHeader span{
-    font-size: 1.5rem;
-    color: white;
-    text-shadow: 0 0 1px black, 0 0 10px black;
+    font-size: 1.6rem;
+    color: var(--corTexto);
+    text-shadow: 0 0 1px white, 0 0 3px white;
     
 }

@@ -4,6 +4,7 @@ import styles from './Home.module.css'
 /* importando componentes */
 import ModalProjeto from '../ModalProjeto/index'
 import Header from "../Header"
+import Footer from "../Footer"
 
 const Home = () => {
     const [projetos, setProjetos] = useState([])
@@ -38,6 +39,7 @@ return(
             )}
             {modalAberto && <ModalProjeto fecharModal={()=> setModalAberto(false)} adicionarProjeto={adicionarProjeto}/>}
         </main>
+        <Footer/>
     </>
 )
 }
