@@ -35,21 +35,6 @@ module.exports = {
     return knex.schema.dropTable('equipe_suporte');
   };
   
-  // Migration para criar a tabela medidas_seguranca
-  exports.up = function(knex) {
-    return knex.schema.createTable('medidas_seguranca', function(table) {
-      table.increments('id').primary();
-      table.boolean('criptografia_dados').defaultTo(false);
-      table.boolean('controle_acesso_autenticacao').defaultTo(false);
-      table.string('outras_medidas_seguranca');
-      table.timestamps(true, true);
-    });
-  };
-  
-  exports.down = function(knex) {
-    return knex.schema.dropTable('medidas_seguranca');
-  };
-  
   // Migration para criar a tabela informacoes_gerais
   exports.up = function(knex) {
     return knex.schema.createTable('informacoes_gerais', function(table) {
@@ -78,21 +63,6 @@ module.exports = {
   
   exports.down = function(knex) {
     return knex.schema.dropTable('status_desenvolvimento');
-  };
-  
-  // Migration para criar a tabela medidas_seguranca
-  exports.up = function(knex) {
-    return knex.schema.createTable('medidas_seguranca', function(table) {
-      table.increments('id').primary();  // Identificador único para cada registro
-      table.boolean('criptografia_dados').defaultTo(false);  // Medida de segurança para criptografia
-      table.boolean('controle_acesso_autenticacao').defaultTo(false);  // Medida para controle de acesso
-      table.string('outras_medidas_seguranca');  // Campo de texto para outras medidas de segurança
-      table.timestamps(true, true);  // Registra a data de criação e atualização
-    });
-  };
-  
-  exports.down = function(knex) {
-    return knex.schema.dropTable('medidas_seguranca');
   };
   
   // Migration para criar a tabela tecnologias_apis
@@ -173,4 +143,145 @@ module.exports = {
   exports.down = function(knex) {
     return knex.schema.dropTable('doc_atualizado');  // Remove a tabela se necessário
   };
-  
+
+
+// Migration para criar a tabela documentacao_tecnica
+exports.up = function(knex) {
+  return knex.schema.createTable('documentacao_tecnica', function(table) {
+    table.increments('id').primary();
+    table.boolean('tem_documentacao_tecnica').notNullable();
+    table.specificType('tipos_documentacao_tecnica', 'text[]');
+    table.string('outros_documentos');
+    table.timestamps(true, true);
+  });
+};
+
+exports.down = function(knex) {
+  return knex.schema.dropTable('documentacao_tecnica');
+};
+
+// Migration para criar a tabela implementacao_projeto
+exports.up = function(knex) {
+  return knex.schema.createTable('implementacao_projeto', function(table) {
+    table.increments('id').primary();
+    table.enu('ambiente', ['AmbienteDeDesenvolvimento', 'AmbienteDeHomologacao', 'AmbienteDeProducao']).notNullable();
+    table.timestamps(true, true);
+  });
+};
+
+exports.down = function(knex) {
+  return knex.schema.dropTable('implementacao_projeto');
+};
+
+// MIGRAÇÃO NOVA: Alterar a tabela medidas_seguranca para incluir a coluna que armazena se as medidas foram implementadas
+exports.up = function(knex) {
+  return knex.schema.alterTable('medidas_seguranca', function(table) {
+    // Armazena a resposta do select do componente SelectForamImplemMedidSegu
+    // Utilizando enum para manter os valores "sim" ou "nao"
+    table.enu('foi_implementado', ['sim', 'nao']).notNullable().defaultTo('nao');
+  });
+};
+
+exports.down = function(knex) {
+  return knex.schema.alterTable('medidas_seguranca', function(table) {
+    table.dropColumn('foi_implementado');
+  });
+};
+
+// Migration para criar a tabela frontend
+exports.up = function(knex) {
+  return knex.schema.createTable('frontend', function(table) {
+    table.increments('id').primary();  // Identificador único para cada registro
+    table.enu('tecnologia', ['react', 'vue', 'angular', 'svelte', 'aspNetCoreMvc']).notNullable();  // Campo para armazenar a tecnologia selecionada
+    table.timestamps(true, true);  // Campos de criação e atualização de registros
+  });
+};
+
+exports.down = function(knex) {
+  return knex.schema.dropTable('frontend');  // Remove a tabela se necessário
+};
+
+// Migration para criar a tabela horario_suporte
+exports.up = function(knex) {
+  return knex.schema.createTable('horario_suporte', function(table) {
+    table.increments('id').primary();  // Identificador único para cada registro
+    table.enu('horario', [
+      'horarioComercial',
+      'vinteEQuatroPorSete',
+      'apenasEmHorarioCritico'
+    ]).notNullable();  // Campo para armazenar o horário do suporte
+    table.timestamps(true, true);  // Campos de criação e atualização de registros
+  });
+};
+
+exports.down = function(knex) {
+  return knex.schema.dropTable('horario_suporte');  // Remove a tabela se necessário
+};
+
+// Migration para criar a tabela norma_conformidade
+exports.up = function(knex) {
+  return knex.schema.createTable('norma_conformidade', function(table) {
+    table.increments('id').primary();
+    // Armazena se o projeto atende alguma norma de conformidade: 'sim' ou 'nao'
+    table.enu('atende_norma', ['sim', 'nao']).notNullable();
+    // Caso atenda, armazena os tipos de normas selecionadas como um array de textos
+    table.specificType('quais_normas', 'text[]');
+    table.timestamps(true, true);
+  });
+};
+
+exports.down = function(knex) {
+  return knex.schema.dropTable('norma_conformidade');
+};
+
+// Migration para criar a tabela metodologia_aplicada
+exports.up = function(knex) {
+  return knex.schema.createTable('metodologia_aplicada', function(table) {
+    table.increments('id').primary();
+    table.enu('metodologia', ['agil', 'scrum', 'kanban', 'cascata', 'extremeProgramming', 'leanDevelopment', 'tdd']).notNullable();
+    table.timestamps(true, true);
+  });
+};
+
+exports.down = function(knex) {
+  return knex.schema.dropTable('metodologia_aplicada');
+};
+
+// Migration para criar a tabela rollback_automatico
+exports.up = function(knex) {
+  return knex.schema.createTable('rollback_automatico', function(table) {
+    table.increments('id').primary();
+    table.enu('rollback', ['sim', 'nao']).notNullable();
+    table.timestamps(true, true);
+  });
+};
+
+exports.down = function(knex) {
+  return knex.schema.dropTable('rollback_automatico');
+};
+
+exports.up = function(knex) {
+  return knex.schema.createTable('suporte_tecnico_disponivel', function(table) {
+    table.increments('id').primary();
+    table.enu('existe_suporte', ['sim', 'nao']).notNullable();
+    table.timestamps(true, true);
+  });
+};
+
+exports.down = function(knex) {
+  return knex.schema.dropTable('suporte_tecnico_disponivel');
+};
+
+exports.up = function(knex) {
+  return knex.schema.createTable('testes_realizados', function(table) {
+    table.increments('id').primary();  // ID único para cada registro
+    table.enu('passou_por_testes', ['sim', 'nao']).notNullable();  // Indica se o projeto passou por testes
+    table.enu('tipo_teste', ['unitarios', 'integracao', 'aceitacao', 'performance']).nullable();  // Tipo de teste realizado
+    table.text('outras_medidas').nullable();  // Campo para armazenar outras medidas de segurança opcionais
+    table.timestamps(true, true);  // Datas de criação e atualização do registro
+  });
+};
+
+exports.down = function(knex) {
+  return knex.schema.dropTable('testes_realizados');  // Remove a tabela se necessário
+};
