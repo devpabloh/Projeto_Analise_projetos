@@ -2,6 +2,7 @@ const express = require("express"); // para criar o servidor Node JS
 const bodyParser = require("body-parser"); // para ler o corpo da requisição em formato JSON  
 const cors = require("cors"); // para permitir que o front-end acesso o back-end
 const { v4: uuidv4 } = require("uuid"); // para gerar o ID do formulario, que deve ser unico para cada formulario  
+require('dotenv').config();
 
 const app = express(); // cria uma instancia do express para o servidor
 

@@ -1,22 +1,27 @@
-// knexfile.js serve para configurar o banco de dados usado pelo knex 
-// knexfile.js (Configuração do Knex)
+// knexfile.js
+require('dotenv').config();
+console.log('DB_PASSWORD:', process.env.DB_PASSWORD, typeof process.env.DB_PASSWORD);
+
 module.exports = {
-    development: {
-      client: 'pg',
-      connection: {
-        host: '127.0.0.1',
-        user: 'seu_usuario',
-        password: 'sua_senha',
-        database: 'seu_banco_de_dados'
-      },
-      migrations: {
-        directory: './migrations'
-      },
-      seeds: {
-        directory: './seeds'
-      }
+  development: {
+    client: 'pg',
+    connection: {
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT, 10),
+      user: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+    },
+    migrations: {
+      directory: './migrations'
+    },
+    seeds: {
+      directory: './seeds'
     }
-  };
+  },
+  // Outras configurações...
+};
+
   
   // Migration para criar a tabela equipe_suporte
   exports.up = function(knex) {
