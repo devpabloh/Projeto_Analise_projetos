@@ -3,7 +3,13 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-  
+    return knex.schema.createTable('status_desenvolvimento', function(table) {
+      table.increments('id').primary();
+      table.date('data_inicial').notNullable();
+      table.date('data_final').notNullable();
+      table.enu('status', ['inicio', 'desenvolvimento', 'testes', 'homologacao', 'producao', 'encerrado']).notNullable();
+      table.timestamps(true, true);
+    });
 };
 
 /**
@@ -11,5 +17,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  
+    return knex.schema.dropTable('status_desenvolvimento');
 };
