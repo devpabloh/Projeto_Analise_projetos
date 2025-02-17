@@ -1,5 +1,3 @@
-/* importando os hooks */
-import { useState } from "react"
 
 /* Importando o CSS utilizando o SCSS */
 import styles from "./SelectImplementado.module.css"
@@ -8,9 +6,9 @@ import styles from "./SelectImplementado.module.css"
 import SelectFoiImplementado from '../SelectFoiImplementado';
 
 
-const SelectImplementado = ()=>{
-
-    const [implementado, setImplementado] = useState('')
+const SelectImplementado = ({
+    implementado,
+    setImplementado})=>{
 
     return(
         <div className={styles.containerSelectImplementado}>

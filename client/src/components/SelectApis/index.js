@@ -1,7 +1,11 @@
-import { useState } from "react"
 
-const SelectApis = () => {
-    const [tecnologiasAPIs, setTecnologiasAPIs] = useState('');
+
+const SelectApis = ({
+    tecnologiasAPIs,
+    setTecnologiasAPIs
+}) => {
+    
+    
     const ObjetoTecnologiasAPIs = [
         { value: "apiRest", label: "APIs Rest" },
         {value: "apiSoap", label: "APIs Soap"},

@@ -1,10 +1,9 @@
-import {useState} from "react"
 
 /* Importando o CSS utilizando o SCSS */
 import styles from "./SelectDeployEstruturado.module.css"
 
-const SelectDeployEstruturado = () => {
-    const [deployEstruturado, setDeployEstruturado] = useState('')
+const SelectDeployEstruturado = ({deployEstruturado, setDeployEstruturado}) => {
+    
     return(
         <div className={styles.containerSelectDeployEstruturado}>
             <label htmlFor="deployEstruturado">Existe um processo estruturado de deploy?</label>

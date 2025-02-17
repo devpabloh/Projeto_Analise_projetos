@@ -6,12 +6,23 @@ import styles from "./FieldsetSegurancaEConformidade.module.css"
 import SelectForamImplemMedidSegu from "../SelectForamImplemMedidSegu"
 import SelectNormaConformidade from "../SelectNormaConformidade"
 
-const FieldsetSegurancaEConformidade = () => {
+const FieldsetSegurancaEConformidade = ({
+    formaImplementacaoMedidaSeguranca,
+    setFormaImplementacaoMedidaSeguranca,
+    normaConformidade, 
+    setNormaConformidade
+}) => {
     return(
         <fieldset className={styles.containerFieldsetSegurancaEConformidade}>
             <legend>Seguranca e conformidade</legend>
-            <SelectForamImplemMedidSegu/>
-            <SelectNormaConformidade/>
+            <SelectForamImplemMedidSegu
+            formaImplementacaoMedidaSeguranca={formaImplementacaoMedidaSeguranca}
+            setFormaImplementacaoMedidaSeguranca={setFormaImplementacaoMedidaSeguranca}
+            />
+            <SelectNormaConformidade
+            normaConformidade={normaConformidade}
+            setNormaConformidade={setNormaConformidade}
+            />
         </fieldset>
     )
 }

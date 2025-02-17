@@ -1,5 +1,3 @@
-import { useState } from "react"
-
 
 import SelectSuporteTecnDispo from "../SelectSuporteTecnDispo"
 import SelectHorarioSuporte from "../SelectHorarioSuporte"
@@ -7,10 +5,19 @@ import SelectHorarioSuporte from "../SelectHorarioSuporte"
 /* importando o css */
 import styles from "./FieldsetEquipeESuporte.module.css"
 
-const FieldsetEquipeESuporte = () => {
-    const [nomeLiderTecnico, setNomeLiderTecnico] = useState('');
-    const [nomeGerenteProjeto, setNomeGerenteProjeto] = useState('');
-    const [nomeResponsavelSuporte, setNomeResponsavelSuporte] = useState('');
+const FieldsetEquipeESuporte = ({
+    nomeLiderTecnico,
+    setNomeLiderTecnico,
+    nomeGerenteProjeto,
+    setNomeGerenteProjeto,
+    nomeResponsavelSuporte,
+    setNomeResponsavelSuporte,
+    existeSuporteTecnicoDisponivel, 
+    setExisteSuporteTecnicoDisponivel,
+    horarioSuporte, 
+    setHorarioSuporte
+}) => {
+    
 
     return(
         <fieldset className={styles.containerFieldsetEquipeESuporte}>
@@ -48,8 +55,14 @@ const FieldsetEquipeESuporte = () => {
                     required
                 />
             </div>
-            <SelectSuporteTecnDispo/>
-            <SelectHorarioSuporte/>
+            <SelectSuporteTecnDispo
+            existeSuporteTecnicoDisponivel={existeSuporteTecnicoDisponivel}
+            setExisteSuporteTecnicoDisponivel={setExisteSuporteTecnicoDisponivel}
+            />
+            <SelectHorarioSuporte
+            horarioSuporte={horarioSuporte}
+            setHorarioSuporte={setHorarioSuporte}
+            />
         </fieldset>
     )
 }

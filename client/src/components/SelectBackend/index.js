@@ -1,7 +1,6 @@
-import { useState } from "react";
 
-const SelectBackend = () => {
-    const [tecnologiasBackend, setTecnologiasBackend] = useState("");
+
+const SelectBackend = ({tecnologiasBackend, setTecnologiasBackend}) => {
 
     const ObjetoTecnologiasBackend = [
         { value: "nodeJs", label: "Node.js"},

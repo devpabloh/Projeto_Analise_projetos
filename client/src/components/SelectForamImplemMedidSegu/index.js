@@ -1,5 +1,3 @@
-/* importando os hooks */
-import { useState } from "react";
 
 /* importando componentes */
 import CheckboxQuaisMedidSegu from "../CheckboxQuaisMedidSegu";
@@ -7,8 +5,11 @@ import CheckboxQuaisMedidSegu from "../CheckboxQuaisMedidSegu";
 /* importando o CSS utilizando o SCSS */
 import styles from "./SelectForamImplemMedidSegu.module.css";
 
-const SelectForamImplemMedidSegu = () => {
-    const [formaImplementacaoMedidaSeguranca, setFormaImplementacaoMedidaSeguranca] = useState('')
+const SelectForamImplemMedidSegu = ({
+    formaImplementacaoMedidaSeguranca,
+    setFormaImplementacaoMedidaSeguranca
+}) => {
+    
     return(
         <div className={styles.containerSelectForamImplemMedidSegu}>
             <label htmlFor="formaImplementacaoMedidaSeguranca">Foram implementadas medidas de segurança no projeto ?</label>

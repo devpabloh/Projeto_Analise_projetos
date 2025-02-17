@@ -1,7 +1,5 @@
-import { useState } from "react";
 
-const SelectFrontend = () => {
-    const [frontend, setFrontend] = useState("");
+const SelectFrontend = ({frontend, setFrontend}) => {
 
     const ObjetoTecnologiasFrontEnd = [
         { value: "react", label: "React" },

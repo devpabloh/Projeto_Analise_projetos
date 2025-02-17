@@ -1,11 +1,8 @@
     /* Importando o CSS utilizando o SCSS */
     import styles from "./SelectTestes.module.css"
 
-    /* importando os hooks */
-    import { useState } from "react"
-
-    export const SelectTestes = () => {
-        const [quaisTestes, setQuaisTestes] = useState('')
+    export const SelectTestes = ({quaisTestes, setQuaisTestes}) => {
+        
         
 
         const opcoesTestes = [

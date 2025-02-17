@@ -1,19 +1,17 @@
-/* importando o CSS */
 import styles from "./SelectFoiImplementado.module.css"
 
-
-/* importando os hooks */
-import { useState } from "react"
-
-const SelectFoiImplementado = ({onChange}) => {
-
-    const [foiImplementadoQual, setFoiImplementadoQual] = useState(false)
-
-
+const SelectFoiImplementado = ({ foiImplementadoQual, onChange }) => {
     return(
         <div className={styles.containerSelectFoiImplementado}>
             <label htmlFor="foiImplementadoQual">O projeto foi implementado em algum ambiente?</label>
-            <select name="foiImplementadoQual" id="foiImplementadoQual" value={foiImplementadoQual} onChange={(evento)=> setFoiImplementadoQual(evento.target.value)}  required>
+            <select 
+                name="foiImplementadoQual" 
+                id="foiImplementadoQual" 
+                value={foiImplementadoQual} 
+                onChange={(evento) => onChange(evento.target.value)}  
+                required
+            >
+                <option value="" disabled>Selecione uma opção</option>
                 <option value="AmbienteDeDesenvolvimento">Ambiente de desenvolvimento</option>
                 <option value="AmbienteDeHomologacao">Ambiente de homologação</option>
                 <option value="AmbienteDeProducao">Ambiente de produção</option>

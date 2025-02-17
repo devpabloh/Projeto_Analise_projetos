@@ -5,10 +5,15 @@ import {useState} from "react"
 /* Importando css */
 import styles from "./SelectDocumentacaoTecnica.module.css"
 
-const SelectDocumentacaoTecnica = () => {
-    const [documentacaoTecnica, setDocumentacaoTecnica] = useState('');
-    const [selectedOptions, setSelectedOptions] = useState([]);
-    const [outrosDocumentosTecnicos, setOutrosDocumentosTecnicos] = useState('');
+const SelectDocumentacaoTecnica = ({
+    documentacaoTecnica,
+    setDocumentacaoTecnica,
+    selectedOptions, 
+    setSelectedOptions,
+    outrosDocumentosTecnicos, 
+    setOutrosDocumentosTecnicos
+}) => {
+    
 
     const handleSelectChange = (event) => {
         const value = event.target.value;

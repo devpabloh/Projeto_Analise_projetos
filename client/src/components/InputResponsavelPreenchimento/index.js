@@ -1,13 +1,17 @@
 /* importando os hooks */
-import { useState } from "react" 
-
 import styles from "./InputResponsavelPreenchimento.module.css"
 
-const InputResponsavelPreenchimento = ( )=>{
-    const [nomeResponsavelPreenchimento, setNomeResponsavelPreenchimento] = useState('');
-    const [cargoResponsavelPreenchimento, setCargoResponsavelPreenchimento] = useState('');
-    const [telefoneResponsavelPreenchimento,setTelefoneResponsavelPreenchimento] = useState("");
-    const [emailResponsavelPreenchimento, setEmailResponsavelPreenchimento] = useState('');
+const InputResponsavelPreenchimento = ({
+    nomeResponsavelPreenchimento,
+    setNomeResponsavelPreenchimento,
+    cargoResponsavelPreenchimento,
+    setCargoResponsavelPreenchimento,
+    telefoneResponsavelPreenchimento,
+    setTelefoneResponsavelPreenchimento,
+    emailResponsavelPreenchimento,
+    setEmailResponsavelPreenchimento,
+} )=>{
+
     return(
         <div className={styles.containerInputResponsavelPreenchimento}>
             <div>

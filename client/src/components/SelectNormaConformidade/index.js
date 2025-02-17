@@ -1,15 +1,13 @@
 
-/* importando os hooks */
-import { useState } from "react"
-
 /* importando componentes */
 import SelectQuaisNormasConform from "../SelectQuaisNormasConform"
 
 import styles from "./SelectNormaConformidade.module.css"
 
-const SelectNormaConformidade = () => {
-
-    const [normaConformidade, setNormaConformidade] = useState('')
+const SelectNormaConformidade = ({
+    normaConformidade, 
+    setNormaConformidade
+}) => {
     const handleChange = (e) => {
         setNormaConformidade(e.target.value);
         console.log("Norma de conformidade selecionada:", e.target.value); 

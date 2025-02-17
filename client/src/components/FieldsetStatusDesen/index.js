@@ -1,10 +1,14 @@
 import { useState } from "react"
 import styles from "./FieldsetStatusDesen.module.css"
 
-const FieldsetStatusDesen = () => {
-    const [dataInicial, setDataInicial] = useState('');
-    const [dataFinal, setDataFinal] = useState('');
-    const [status, setStatus] = useState('');
+const FieldsetStatusDesen = ({
+    dataInicial,
+    setDataInicial,
+    dataFinal,
+    setDataFinal,
+    status,
+    setStatus,
+}) => {
 
     const objetoStatusDesenvolvimento = [
         { value: "inicio", label: "Ideia / iniciação"},

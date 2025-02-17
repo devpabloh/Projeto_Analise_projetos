@@ -1,13 +1,10 @@
 
-/* importando os hooks */
-import { useState } from "react"
-
 /* Importando o CSS utilizando o SCSS */
 import styles from "./SelectDocAtuali.module.css"
 
 
-const SelectDocAtuali = () => {
-    const [docAtualizado, setDocAtualizado] = useState('')
+const SelectDocAtuali = ({docAtualizado, setDocAtualizado}) => {
+    
 
     return(
         <div className={styles.containerSelectDocAtuali}>

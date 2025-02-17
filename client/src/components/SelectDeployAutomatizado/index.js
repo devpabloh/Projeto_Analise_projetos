@@ -1,11 +1,7 @@
 
-/*  importando os hooks */
-import {useState} from "react"
-
 import styles from "./SelectDeployAutomatizado.module.css"
 
-const SelectDeployAutomatizado = () => {
-    const [deployAutomatizado, setDeployAutomatizado] = useState('')
+const SelectDeployAutomatizado = ({deployAutomatizado, setDeployAutomatizado}) => {
     return(
         <div className={styles.containerSelectDeployAutomatizado}>
             <label htmlFor="deployAutomatizado">A implantação é feita de forma automatizada CI/CD?</label>

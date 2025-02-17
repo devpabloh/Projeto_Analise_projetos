@@ -1,7 +1,7 @@
 import { useState } from "react"
 
-const SelectHorarioSuporte = ()=>{
-    const [horarioSuporte, setHorarioSuporte] = useState('')
+const SelectHorarioSuporte = ({horarioSuporte, setHorarioSuporte})=>{
+    
 
     return(
         <div>

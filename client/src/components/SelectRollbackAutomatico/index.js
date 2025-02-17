@@ -1,12 +1,11 @@
-/* importando os hooks */
-import {useState} from "react"
 
 /* Importando o CSS utilizando o SCSS */
 import styles from "./SelectRollbackAutomatico.module.css"
 
-const SelectRollbackAutomatico = ()=>{
-
-    const [rollbackAutomatico, setRollbackAutomatico] = useState()
+const SelectRollbackAutomatico = ({
+    rollbackAutomatico,
+     setRollbackAutomatico
+    })=>{
 
     return(
     <div className={styles.containerSelectRollbackAutomatico}>

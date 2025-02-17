@@ -4,12 +4,16 @@ import styles from "./FieldsetMetodologiaAplicada.module.css"
 
 import SelectQualMetodologiaAplicada from "../SelectQualMetodologiaAplicada"
 
-const FieldsetMetodologiaAplicada = () => {
+const FieldsetMetodologiaAplicada = ({qualMetodologiaAplicada, 
+    setQualMetodologiaAplicada}) => {
 
     return (
         <fieldset className={styles.containerFieldsetMetodologiaAplicada}>
             <legend>Metodologia aplicada</legend>
-            <SelectQualMetodologiaAplicada/>
+            <SelectQualMetodologiaAplicada
+            qualMetodologiaAplicada={qualMetodologiaAplicada}
+            setQualMetodologiaAplicada={setQualMetodologiaAplicada}
+            />
             
         </fieldset>
     )

@@ -1,7 +1,7 @@
 import {useState} from "react";
 
-const SelectBancoDeDados = () => {
-    const [tecnologiasBancoDeDados, setTecnologiasBancoDeDados] = useState('');
+const SelectBancoDeDados = ({tecnologiasBancoDeDados, setTecnologiasBancoDeDados}) => {
+    
 
     const ObjetoTecnologiasBancoDeDados = [
         { value: "mySql", label: "MySQL" },

@@ -1,7 +1,8 @@
-import { useState } from "react"
 
-const SelectSuporteTecnDispo = ()=>{
-    const [existeSuporteTecnicoDisponivel, setExisteSuporteTecnicoDisponivel] = useState('')
+const SelectSuporteTecnDispo = ({
+    existeSuporteTecnicoDisponivel, 
+    setExisteSuporteTecnicoDisponivel
+})=>{
 
     return(
         <div>

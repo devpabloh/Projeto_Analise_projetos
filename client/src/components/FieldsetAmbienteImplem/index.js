@@ -8,14 +8,35 @@ import SelectDeployEstruturado from "../SelectDeployEstruturado";
 import SelectDeployAutomatizado from "../SelectDeployAutomatizado";
 import SelectRollbackAutomatico from "../SelectRollbackAutomatico";
 
-const FieldsetAmbienteImplem = ()=>{
+const FieldsetAmbienteImplem = ({
+    deployEstruturado,
+    setDeployEstruturado,
+    deployAutomatizado, 
+    setDeployAutomatizado,
+    rollbackAutomatico,
+    setRollbackAutomatico,
+    implementado,
+    setImplementado
+    })=>{
     return(
         <fieldset className={styles.containerFieldsetAmbienteImplem}>
             <legend>Ambiente e implementação</legend>
-            <SelectDeployEstruturado/>
-            <SelectDeployAutomatizado/>
-            <SelectRollbackAutomatico/>
-            <SelectImplementado/>
+            <SelectDeployEstruturado
+            deployEstruturado={deployEstruturado}
+            setDeployEstruturado={setDeployEstruturado}
+            />
+            <SelectDeployAutomatizado
+            deployAutomatizado={deployAutomatizado}
+            setDeployAutomatizado={setDeployAutomatizado}
+            />
+            <SelectRollbackAutomatico
+            rollbackAutomatico={rollbackAutomatico}
+            setRollbackAutomatico={setRollbackAutomatico}
+            />
+            <SelectImplementado
+            implementado={implementado}
+            setImplementado={setImplementado}
+            />
         </fieldset>
     )
 }

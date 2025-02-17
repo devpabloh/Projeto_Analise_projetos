@@ -1,13 +1,23 @@
-import { useState } from "react";
+
 import styles from "./FieldsetInfoGerais.module.css";
 import FieldsetResponsavelPreenchimento from "../FieldsetResponsavelPreenchimento";
 
-const FieldsetInfoGerais = () => {
-    /* Hook - useState */
-    const [nomeProjeto, setNomeProjeto] = useState('');
-    const [descricaoResumida, setDescricaoResumida] = useState('');
-    const [dataPreenchimento, setDataPreenchimento] = useState('');
+const FieldsetInfoGerais = ({ nomeProjeto,
+  setNomeProjeto,
+  descricaoResumida,
+  setDescricaoResumida,
+  dataPreenchimento,
+  setDataPreenchimento,
+  nomeResponsavelPreenchimento,
+  setNomeResponsavelPreenchimento,
+  cargoResponsavelPreenchimento,
+  setCargoResponsavelPreenchimento,
+  telefoneResponsavelPreenchimento,
+  setTelefoneResponsavelPreenchimento,
+  emailResponsavelPreenchimento,
+  setEmailResponsavelPreenchimento
 
+}) => {
 
   return (
     <fieldset className={styles.containerFieldset}>
@@ -45,7 +55,16 @@ const FieldsetInfoGerais = () => {
           required
         />
       </div>
-      <FieldsetResponsavelPreenchimento/>
+      <FieldsetResponsavelPreenchimento
+      nomeResponsavel={nomeResponsavelPreenchimento}
+      setNomeResponsavel={setNomeResponsavelPreenchimento}
+      cargoResponsavel={cargoResponsavelPreenchimento}
+      setCargoResponsavel={setCargoResponsavelPreenchimento}
+      telefoneResponsavel={telefoneResponsavelPreenchimento}
+      setTelefoneResponsavel={setTelefoneResponsavelPreenchimento}
+      emailResponsavel={emailResponsavelPreenchimento}
+      setEmailResponsavel={setEmailResponsavelPreenchimento}
+      />
       
     </fieldset>
   );

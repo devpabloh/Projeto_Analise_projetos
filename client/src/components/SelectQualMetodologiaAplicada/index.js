@@ -1,11 +1,12 @@
-/* importando os hooks */
-import { useState } from "react";
 
 /* Importando o CSS utilizando o SCSS */
 import styles from "./SelectQualMetodologiaAplicada.module.css"
 
-const SelectQualMetodologiaAplicada = () => {
-    const [qualMetodologiaAplicada, setQualMetodologiaAplicada] = useState("");
+const SelectQualMetodologiaAplicada = ({
+    qualMetodologiaAplicada, 
+    setQualMetodologiaAplicada
+}) => {
+    
 
     const ObjetoMetodologiaAplicada = [
         { value: "agil", label: "Ágil" },
