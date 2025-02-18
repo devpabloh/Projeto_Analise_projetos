@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 const CheckboxQuaisMedidSegu = () => {
+    // O componente mantém seu próprio estado mas não o compartilha
     const [value, setValue] = useState([]);
     const [outrasMedidasDeSeguranca, setOutrasMedidasDeSeguranca] = useState('');
 

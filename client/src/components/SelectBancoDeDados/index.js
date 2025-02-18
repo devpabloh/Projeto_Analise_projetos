@@ -2,7 +2,6 @@
 
 const SelectBancoDeDados = ({tecnologiasBancoDeDados, setTecnologiasBancoDeDados}) => {
     
-
     const ObjetoTecnologiasBancoDeDados = [
         { value: "mySql", label: "MySQL" },
         { value: "SqlLite", label: "SQLite" },

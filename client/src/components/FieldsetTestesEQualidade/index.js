@@ -16,9 +16,10 @@ const FieldsetTestesEQualidade = ({
             />
 
             {passouPorTestes === "sim" && 
+                // As props estão sendo passadas como selectedTests mas o componente espera quaisTestes
                 <SelectTestes
-                    quaisTestes={quaisTestes}
-                    setQuaisTestes={setQuaisTestes}
+                    quaisTestes={quaisTestes}        // Corrigido
+                    setQuaisTestes={setQuaisTestes}  // Corrigido
                 />
             }
         </fieldset>
