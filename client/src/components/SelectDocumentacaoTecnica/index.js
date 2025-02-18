@@ -1,7 +1,4 @@
 
-/* Importando hooks */
-import {useState} from "react"
-
 /* Importando css */
 import styles from "./SelectDocumentacaoTecnica.module.css"
 

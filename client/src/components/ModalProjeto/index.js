@@ -126,9 +126,14 @@ const ModalProjeto = ({fecharModal, adicionarProjeto}) => {
       };
     
 
-    const lidarComEnvio = (evento)=>{
+    const lidarComEnvio = async (evento) => {
         evento.preventDefault();
-        fecharModal()
+        try {
+            await handleSave();
+            fecharModal();
+        } catch (error) {
+            console.error('Erro ao salvar:', error);
+        }
     }
 
     const sairAoClicarForaDoModal = (evento)=>{
@@ -230,7 +235,7 @@ const ModalProjeto = ({fecharModal, adicionarProjeto}) => {
                     <div className={styles.containerBotoesModal}>
                         <button
                             type="button"
-                            onClick={()=> fecharModal()}
+                            onClick={fecharModal}
                         >Cancelar</button>
                         <button
                             type="button"
