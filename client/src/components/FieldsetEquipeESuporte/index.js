@@ -1,67 +1,69 @@
-
 import SelectSuporteTecnDispo from "../SelectSuporteTecnDispo"
 import SelectHorarioSuporte from "../SelectHorarioSuporte"
-
-/* importando o css */
 import styles from "./FieldsetEquipeESuporte.module.css"
 
 const FieldsetEquipeESuporte = ({
-    nomeLiderTecnico,
+    nomeLiderTecnico = '',
     setNomeLiderTecnico,
-    nomeGerenteProjeto,
+    nomeGerenteProjeto = '',
     setNomeGerenteProjeto,
-    nomeResponsavelSuporte,
+    nomeResponsavelSuporte = '',
     setNomeResponsavelSuporte,
-    existeSuporteTecnicoDisponivel, 
+    existeSuporteTecnicoDisponivel = '', 
     setExisteSuporteTecnicoDisponivel,
-    horarioSuporte, 
+    horarioSuporte = '', 
     setHorarioSuporte
 }) => {
-    
+    // Handler functions for input changes
+    const handleInputChange = (setter) => (event) => {
+        if (typeof setter === 'function') {
+            setter(event.target.value);
+        }
+    };
 
-    return(
+    return (
         <fieldset className={styles.containerFieldsetEquipeESuporte}>
             <legend>Equipe e suporte</legend>
             <div>
-                <label htmlFor="nomeLiderTecnico">Nome do líder técnico</label>
-                    <input
+                <label htmlFor="nomeLiderTecnico">Nome do líder técnico</label>
+                <input
                     type="text"
                     name="nomeLiderTecnico"
                     id="nomeLiderTecnico"
                     value={nomeLiderTecnico}
-                    onChange={(evento) => setNomeLiderTecnico(evento.target.value)}
+                    onInput={handleInputChange(setNomeLiderTecnico)}
                     required
                 />
             </div>
             <div>
                 <label htmlFor="nomeGerenteProjeto">Nome do gerente de projeto</label>
-                    <input
+                <input
                     type="text"
                     name="nomeGerenteProjeto"
                     id="nomeGerenteProjeto"
                     value={nomeGerenteProjeto}
-                    onChange={(evento) => setNomeGerenteProjeto(evento.target.value)}
+                    onInput={handleInputChange(setNomeGerenteProjeto)}
                     required
                 />
             </div>
             <div>
                 <label htmlFor="nomeResponsavelSuporte">Nome do responsável de suporte</label>
-                    <input
+                <input
                     type="text"
                     name="nomeResponsavelSuporte"
                     id="nomeResponsavelSuporte"
                     value={nomeResponsavelSuporte}
-                    onChange={(evento) => setNomeResponsavelSuporte(evento.target.value)}
+                    onInput={handleInputChange(setNomeResponsavelSuporte)}
                     required
                 />
             </div>
             <SelectSuporteTecnDispo
-            existeSuporteTecnicoDisponivel={existeSuporteTecnicoDisponivel}
-            setExisteSuporteTecnicoDisponivel={setExisteSuporteTecnicoDisponivel}
+                existeSuporteTecnicoDisponivel={existeSuporteTecnicoDisponivel}
+                onInputChange={handleInputChange(setExisteSuporteTecnicoDisponivel)}
             />
             <SelectHorarioSuporte
-            horarioSuporte={horarioSuporte}
-            setHorarioSuporte={setHorarioSuporte}
+                horarioSuporte={horarioSuporte}
+                onInputChange={handleInputChange(setHorarioSuporte)}
             />
         </fieldset>
     )
