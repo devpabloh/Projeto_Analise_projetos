@@ -59,11 +59,11 @@ const FieldsetEquipeESuporte = ({
             </div>
             <SelectSuporteTecnDispo
                 existeSuporteTecnicoDisponivel={existeSuporteTecnicoDisponivel}
-                onInputChange={handleInputChange(setExisteSuporteTecnicoDisponivel)}
+                setExisteSuporteTecnicoDisponivel={setExisteSuporteTecnicoDisponivel}
             />
             <SelectHorarioSuporte
                 horarioSuporte={horarioSuporte}
-                onInputChange={handleInputChange(setHorarioSuporte)}
+                setHorarioSuporte={setHorarioSuporte}
             />
         </fieldset>
     )

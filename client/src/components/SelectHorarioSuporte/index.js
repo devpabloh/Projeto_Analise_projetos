@@ -1,9 +1,4 @@
 const SelectHorarioSuporte = ({ horarioSuporte, setHorarioSuporte }) => {
-    const handleChange = (e) => {
-        if (typeof setHorarioSuporte === 'function') {
-            setHorarioSuporte(e.target.value);
-        }
-    };
 
     return(
         <div>
@@ -12,7 +7,7 @@ const SelectHorarioSuporte = ({ horarioSuporte, setHorarioSuporte }) => {
                 name="horarioSuporte" 
                 id="horarioSuporte" 
                 value={horarioSuporte || ''} 
-                onChange={handleChange}
+                onChange={(evento)=>setHorarioSuporte(evento.target.value)}
                 required
             >
                 <option value="" disabled>Selecione uma opção</option>

@@ -8,7 +8,10 @@ import SelectFoiImplementado from '../SelectFoiImplementado';
 
 const SelectImplementado = ({
     implementado,
-    setImplementado})=>{
+    setImplementado,
+    foiImplementadoQual, 
+    setFoiImplementadoQual
+})=>{
 
     return(
         <div className={styles.containerSelectImplementado}>
@@ -18,7 +21,10 @@ const SelectImplementado = ({
                 <option value="sim">Sim</option>
                 <option value="nao">Não</option>
             </select>
-            {implementado === "sim" && <SelectFoiImplementado/>}
+            {implementado === "sim" && <SelectFoiImplementado
+            foiImplementadoQual={foiImplementadoQual}
+            setFoiImplementadoQual={setFoiImplementadoQual}
+            />}
         </div>
     )
 }

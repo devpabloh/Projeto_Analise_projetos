@@ -47,6 +47,8 @@ const ModalProjeto = ({fecharModal, adicionarProjeto}) => {
     const [horarioSuporte, setHorarioSuporte] = useState('')
     const [formaImplementacaoMedidaSeguranca, setFormaImplementacaoMedidaSeguranca] = useState('')
     const [normaConformidade, setNormaConformidade] = useState('')
+    const [foiImplementadoQual, setFoiImplementadoQual] = useState('')
+    
     
     const handleSave = async () => {
       try {
@@ -202,6 +204,8 @@ const ModalProjeto = ({fecharModal, adicionarProjeto}) => {
                         setImplementado={setImplementado}
                         rollbackAutomatico={rollbackAutomatico}
                         setRollbackAutomatico={setRollbackAutomatico}
+                        foiImplementadoQual={foiImplementadoQual}
+                        setFoiImplementadoQual={setFoiImplementadoQual}
                         />
                         <FieldsetDocumentacao
                         documentacaoTecnica={documentacaoTecnica}

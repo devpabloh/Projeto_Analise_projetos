@@ -1,6 +1,6 @@
 import styles from "./SelectFoiImplementado.module.css"
 
-const SelectFoiImplementado = ({ foiImplementadoQual, onChange }) => {
+const SelectFoiImplementado = ({ foiImplementadoQual, setFoiImplementadoQual }) => {
     return(
         <div className={styles.containerSelectFoiImplementado}>
             <label htmlFor="foiImplementadoQual">O projeto foi implementado em algum ambiente?</label>
@@ -8,7 +8,7 @@ const SelectFoiImplementado = ({ foiImplementadoQual, onChange }) => {
                 name="foiImplementadoQual" 
                 id="foiImplementadoQual" 
                 value={foiImplementadoQual} 
-                onChange={(evento) => onChange(evento.target.value)}  
+                onChange={(evento) => setFoiImplementadoQual(evento.target.value)}  
                 required
             >
                 <option value="" disabled>Selecione uma opção</option>

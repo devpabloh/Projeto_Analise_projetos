@@ -2,11 +2,6 @@ const SelectSuporteTecnDispo = ({
     existeSuporteTecnicoDisponivel, 
     setExisteSuporteTecnicoDisponivel
 }) => {
-    const handleChange = (e) => {
-        if (typeof setExisteSuporteTecnicoDisponivel === 'function') {
-            setExisteSuporteTecnicoDisponivel(e.target.value);
-        }
-    };
 
     return (
         <div>
@@ -15,7 +10,7 @@ const SelectSuporteTecnDispo = ({
                 name="existeSuporteTecnicoDisponivel" 
                 id="existeSuporteTecnicoDisponivel" 
                 value={existeSuporteTecnicoDisponivel || ''} 
-                onChange={handleChange} 
+                onChange={(evento)=> setExisteSuporteTecnicoDisponivel(evento.target.value)} 
                 required
             >
                 <option value="" disabled>Selecione uma opção</option>

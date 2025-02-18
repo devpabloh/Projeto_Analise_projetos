@@ -1,7 +1,7 @@
     /* Importando o CSS utilizando o SCSS */
     import styles from "./SelectTestes.module.css"
 
-    export const SelectTestes = ({quaisTestes, setQuaisTestes}) => {
+    export const SelectTestes = ({quaisTestes, setQuaisTestes }) => {
         
         
 
@@ -26,13 +26,18 @@
         )
     }
 
-    export const PassouPorTestes = ({onchange}) => {
-
+    export const PassouPorTestes = ({ passouPorTestes, setPassouPorTestes }) => {
         return(
             <div className={styles.containerSelectTestes}>
                 <label htmlFor="passouPorTestes">O projeto já passou por testes?</label>
-                <select name="passouPorTestes" id="passouPorTestes" onChange={(e) => onchange(e.target.value)} required>
-                    <option value="" disabled selected >Selecione uma opção</option>
+                <select 
+                    name="passouPorTestes" 
+                    id="passouPorTestes" 
+                    value={passouPorTestes} 
+                    onChange={(e) => setPassouPorTestes(e.target.value)} 
+                    required
+                >
+                    <option value="" disabled selected>Selecione uma opção</option>
                     <option value="sim">Sim</option>
                     <option value="nao">Não</option>
                 </select>

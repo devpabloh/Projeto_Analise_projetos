@@ -16,7 +16,9 @@ const FieldsetAmbienteImplem = ({
     rollbackAutomatico,
     setRollbackAutomatico,
     implementado,
-    setImplementado
+    setImplementado,
+    foiImplementadoQual, 
+    setFoiImplementadoQual
     })=>{
     return(
         <fieldset className={styles.containerFieldsetAmbienteImplem}>
@@ -36,6 +38,8 @@ const FieldsetAmbienteImplem = ({
             <SelectImplementado
             implementado={implementado}
             setImplementado={setImplementado}
+            foiImplementadoQual={foiImplementadoQual}
+            setFoiImplementadoQual={setFoiImplementadoQual}
             />
         </fieldset>
     )

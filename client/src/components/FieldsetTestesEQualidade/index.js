@@ -11,14 +11,14 @@ const FieldsetTestesEQualidade = ({
         <fieldset className={styles.containerFieldsetTestesEQualidade}>
             <legend>Testes e qualidade</legend>
             <PassouPorTestes 
-                value={passouPorTestes} 
-                onChange={setPassouPorTestes}
+                passouPorTestes={passouPorTestes} 
+                setPassouPorTestes={setPassouPorTestes}
             />
 
             {passouPorTestes === "sim" && 
                 <SelectTestes
-                    selectedTests={quaisTestes}
-                    setSelectedTests={setQuaisTestes}
+                    quaisTestes={quaisTestes}
+                    setQuaisTestes={setQuaisTestes}
                 />
             }
         </fieldset>
