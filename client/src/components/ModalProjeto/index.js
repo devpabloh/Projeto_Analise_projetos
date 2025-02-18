@@ -51,81 +51,83 @@ const ModalProjeto = ({fecharModal, adicionarProjeto}) => {
     
     
     const handleSave = async () => {
-      try {
-          const formData = {
-              informacoes_gerais: {
-                  nome_projeto: nomeProjeto,
-                  descricao_resumida: descricaoResumida,
-                  data_preenchimento: dataPreenchimento,
-                  responsavel_preenchimento: {
-                      nome: nomeResponsavelPreenchimento,
-                      cargo: cargoResponsavelPreenchimento,
-                      telefone: telefoneResponsavelPreenchimento,
-                      email: emailResponsavelPreenchimento
-                  }
-              },
-              status_desenvolvimento: {
-                  data_inicial: dataInicial,
-                  data_final: dataFinal,
-                  status: status
-              },
-              tecnologias: {
-                  frontend: frontend,
-                  backend: tecnologiasBackend,
-                  banco_dados: tecnologiasBancoDeDados,
-                  apis: tecnologiasAPIs
-              },
-              metodologia: {
-                  metodologia_aplicada: qualMetodologiaAplicada
-              },
-              testes_qualidade: {
-                  passou_por_testes: passouPorTestes,
-                  quais_testes: quaisTestes
-              },
-              ambiente_implementacao: {
-                  deploy_automatizado: deployAutomatizado,
-                  deploy_estruturado: deployEstruturado,
-                  implementado: implementado,
-                  rollback_automatico: rollbackAutomatico
-              },
-              documentacao: {
-                  documentacao_tecnica: documentacaoTecnica,
-                  tipos_documentos: selectedOptions,
-                  outros_documentos: outrosDocumentosTecnicos,
-                  documentacao_atualizada: docAtualizado
-              },
-              equipe_suporte: {
-                  lider_tecnico: nomeLiderTecnico,
-                  gerente_projeto: nomeGerenteProjeto,
-                  responsavel_suporte: nomeResponsavelSuporte,
-                  suporte_tecnico_disponivel: existeSuporteTecnicoDisponivel,
-                  horario_suporte: horarioSuporte
-              },
-              seguranca_conformidade: {
-                  implementacao_medida_seguranca: formaImplementacaoMedidaSeguranca,
-                  norma_conformidade: normaConformidade
-              }
-          };
-      
-          // Envia os dados para o backend
-          const response = await fetch('http://localhost:3333/api/save', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-          });
-      
-          if (response.ok) {
-            alert('Dados salvos com sucesso!');
-          } else {
-            throw new Error('Erro ao salvar dados');
-          }
+        try {
+            const formData = {
+                informacoes_gerais: {
+                    nome_projeto: nomeProjeto,
+                    descricao_resumida: descricaoResumida,
+                    data_preenchimento: dataPreenchimento,
+                    responsavel: {
+                        nome: nomeResponsavelPreenchimento,
+                        cargo: cargoResponsavelPreenchimento,
+                        telefone: telefoneResponsavelPreenchimento,
+                        email: emailResponsavelPreenchimento
+                    }
+                },
+                status_desenvolvimento: {
+                    data_inicial: dataInicial,
+                    data_final: dataFinal,
+                    status_atual: status
+                },
+                tecnologias_utilizadas: {
+                    frontend: frontend,
+                    backend: tecnologiasBackend,
+                    banco_dados: tecnologiasBancoDeDados,
+                    apis: tecnologiasAPIs
+                },
+                metodologia: {
+                    metodologia_aplicada: qualMetodologiaAplicada
+                },
+                testes_qualidade: {
+                    passou_por_testes: passouPorTestes,
+                    tipos_testes: quaisTestes
+                },
+                ambiente_implementacao: {
+                    deploy_automatizado: deployAutomatizado,
+                    deploy_estruturado: deployEstruturado,
+                    implementado: implementado,
+                    ambiente_implementado: foiImplementadoQual,
+                    rollback_automatico: rollbackAutomatico
+                },
+                documentacao: {
+                    possui_documentacao: documentacaoTecnica,
+                    tipos_documentos: selectedOptions,
+                    outros_documentos: outrosDocumentosTecnicos,
+                    documentacao_atualizada: docAtualizado
+                },
+                equipe_suporte: {
+                    lider_tecnico: nomeLiderTecnico,
+                    gerente_projeto: nomeGerenteProjeto,
+                    responsavel_suporte: nomeResponsavelSuporte,
+                    suporte_disponivel: existeSuporteTecnicoDisponivel,
+                    horario_suporte: horarioSuporte
+                },
+                seguranca_conformidade: {
+                    medidas_seguranca: formaImplementacaoMedidaSeguranca,
+                    normas_conformidade: normaConformidade
+                }
+            };
+    
+            const response = await fetch('http://localhost:3333/api/projetos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
+    
+            if (response.ok) {
+                alert('Projeto salvo com sucesso!');
+                fecharModal();
+            } else {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Erro ao salvar o projeto');
+            }
         } catch (error) {
-          console.error('Erro:', error);
-          alert('Erro ao salvar os dados');
+            console.error('Erro:', error);
+            alert(error.message || 'Erro ao salvar os dados');
         }
-      };
+    };
     
 
     const lidarComEnvio = async (evento) => {
