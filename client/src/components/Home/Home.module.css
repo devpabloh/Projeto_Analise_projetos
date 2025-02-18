@@ -8,3 +8,37 @@
 .containerHome button{
     padding: var(--paddingButton);
 }
+
+.containerProjetos{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.containerProjeto{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border: 6px solid var(--corSecundaria);
+    max-width: auto;
+    border-radius: 10px;
+    gap: 1rem;
+    padding: .5rem 1rem;
+}
+
+.dadosProjeto{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dadosProjeto p{
+    margin: 0.2rem;
+}
+
+.containerBotoes{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+
+}
