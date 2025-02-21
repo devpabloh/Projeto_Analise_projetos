@@ -13,38 +13,42 @@ const Home = () => {
     const [projetoSelecionado, setProjetoSelecionado] = useState(null)
     const [modalDetalhesAberto, setModalDetalhesAberto] = useState(false)
 
-    useEffect(()=>{
-        const fetchProjetos = async ()=>{
+    useEffect(() => {
+        const fetchProjetos = async () => {
             try {
-                const response = await fetch('http://localhost:3333/api/projetos')
-                const data = await response.json()
-                setProjetos(data)
+                const response = await fetch('http://localhost:3333/api/projetos');
+                const result = await response.json();
+                if (result.success) {
+                    setProjetos(result.data);
+                } else {
+                    console.error('Erro:', result.error);
+                }
             } catch (error) {
-                console.error('Erro ao buscar projetos', error)
+                console.error('Erro ao buscar projetos:', error);
             }
-        }
-        fetchProjetos()
-    }, [])
+        };
+        fetchProjetos();
+    }, []);
 
-const adicionarProjeto = (projeto) => {
-    setProjetos([...projetos, projeto])
-}
-
-const handleDelete = async(id)=>{
-    try {
-        await fetch(`http://localhost:3333/api/projetos/${id}`, {
-            method: 'DELETE'
-        });
-        setProjetos(projetos.filter(projeto => projeto.id !== id))
-    } catch (error) {
-        console.error('Erro ao excluir projeto', error)
+    const adicionarProjeto = (projeto) => {
+        setProjetos([...projetos, projeto])
     }
-}
 
-const handleEdit = (projeto)=>{
-    setProjetoSelecionado(projeto)
-    setModalDetalhesAberto(true)
-}
+    const handleDelete = async(id)=>{
+        try {
+            await fetch(`http://localhost:3333/api/projetos/${id}`, {
+                method: 'DELETE'
+            });
+            setProjetos(projetos.filter(projeto => projeto.id !== id))
+        } catch (error) {
+            console.error('Erro ao excluir projeto', error)
+        }
+    }
+
+    const handleEdit = (projeto)=>{
+        setProjetoSelecionado(projeto)
+        setModalDetalhesAberto(true)
+    }
 
 return(
     <>

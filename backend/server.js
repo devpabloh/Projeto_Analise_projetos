@@ -1,27 +1,28 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const ProjetoController = require('./controllers/ProjetoController');
-const InformacoesGerais = require('./models/20250208121051_create_informacoes_gerais');
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import projectRoutes from './routes/projects.js';
+import { errorHandler } from './middleware/errorHandler.js';
+import { apiLimiter } from './middleware/rateLimiter.js';
 
 const app = express();
 
-app.use(cors());
-app.use(bodyParser.json());
+// Security Middleware
+app.use(helmet());
+app.use(cors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    credentials: true
+}));
+app.use(express.json({ limit: '10kb' }));
+app.use(apiLimiter);
 
-// Rotas
-app.post('/api/projetos', ProjetoController.create);
-app.get('/api/projetos', async (req, res) => {
-    try {
-        const projetos = await InformacoesGerais.getAll();
-        res.json(projetos);
-    } catch (error) {
-        console.error('Erro ao buscar projetos:', error);
-        res.status(500).json({ error: 'Erro ao buscar projetos' });
-    }
-});
+// Routes
+app.use('/api/projects', projectRoutes);
 
-const PORT = 3333;
+// Error handler
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 3333;
 app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
