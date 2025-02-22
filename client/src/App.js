@@ -1,11 +1,14 @@
 
 import './App.css';
 import Home from './components/Home';
+import { NotificationProvider } from './contexts/NotificationContext';
 
 function App() {
   return (
     <>
-      <Home/>
+      <NotificationProvider>
+        <Home />
+      </NotificationProvider>
     </>
   );
 }

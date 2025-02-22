@@ -1,6 +1,8 @@
 /* importando CSS */
 import styles from './ModalProjeto.module.css'
 import { useState, useEffect } from 'react';
+import { useNotification } from '../../contexts/NotificationContext';
+import { projetoService } from '../../services/api';
 
 /* importando os componentes */
 import FieldsetInfoGerais from "../FieldsetInfoGerais";
@@ -13,312 +15,319 @@ import FieldsetDocumentacao from "../FieldsetDocumentacao";
 import FieldsetEquipeESuporte from "../FieldsetEquipeESuporte";
 import FieldsetSegurancaEConformidade from "../FieldsetSegurancaEConformidade";
 
+const initialState = {
+    informacoes_gerais: {
+        nome_projeto: '',
+        descricao_resumida: '',
+        data_preenchimento: '',
+        responsavel: {
+            nome: '',
+            cargo: '',
+            telefone: '',
+            email: ''
+        }
+    },
+    status_desenvolvimento: {
+        data_inicial: '',
+        data_final: '',
+        status_atual: ''
+    },
+    tecnologias_utilizadas: {
+        frontend: '',
+        backend: '',
+        banco_dados: '',
+        apis: ''
+    },
+    metodologia: {
+        metodologia_aplicada: ''
+    },
+    testes_qualidade: {
+        passou_por_testes: '',
+        tipos_testes: ''
+    },
+    ambiente_implementacao: {
+        deploy_automatizado: '',
+        deploy_estruturado: '',
+        implementado: '',
+        ambiente_implementado: '',
+        rollback_automatico: ''
+    },
+    documentacao: {
+        possui_documentacao: '',
+        tipos_documentos: [],
+        outros_documentos: '',
+        documentacao_atualizada: ''
+    },
+    equipe_suporte: {
+        lider_tecnico: '',
+        gerente_projeto: '',
+        responsavel_suporte: '',
+        suporte_disponivel: '',
+        horario_suporte: ''
+    },
+    seguranca_conformidade: {
+        medidas_seguranca: '',
+        normas_conformidade: ''
+    }
+};
+
 const ModalProjeto = ({fecharModal, adicionarProjeto, projetoExistente, modoEdicao}) => {
-    const [nomeProjeto, setNomeProjeto] = useState('');
-    const [descricaoResumida, setDescricaoResumida] = useState('');
-    const [dataPreenchimento, setDataPreenchimento] = useState('');
-    const [nomeResponsavelPreenchimento, setNomeResponsavelPreenchimento] = useState('');
-    const [cargoResponsavelPreenchimento, setCargoResponsavelPreenchimento] = useState('');
-    const [telefoneResponsavelPreenchimento, setTelefoneResponsavelPreenchimento] = useState('');
-    const [emailResponsavelPreenchimento, setEmailResponsavelPreenchimento] = useState('');
-    const [dataInicial, setDataInicial] = useState('');
-    const [dataFinal, setDataFinal] = useState('');
-    const [status, setStatus] = useState('');
-    const [frontend, setFrontend] = useState('');
-    const [tecnologiasBackend, setTecnologiasBackend] = useState("");
-    const [tecnologiasBancoDeDados, setTecnologiasBancoDeDados] = useState('');
-    const [tecnologiasAPIs, setTecnologiasAPIs] = useState('');
-    const [qualMetodologiaAplicada, setQualMetodologiaAplicada] = useState("");
-    const [quaisTestes, setQuaisTestes] = useState('')
-    const [passouPorTestes, setPassouPorTestes] = useState('');
-    const [deployAutomatizado, setDeployAutomatizado] = useState('')
-    const [deployEstruturado, setDeployEstruturado] = useState('')
-    const [implementado, setImplementado] = useState('')
-    const [rollbackAutomatico, setRollbackAutomatico] = useState('')
-    const [documentacaoTecnica, setDocumentacaoTecnica] = useState('');
-    const [selectedOptions, setSelectedOptions] = useState([]);
-    const [outrosDocumentosTecnicos, setOutrosDocumentosTecnicos] = useState('');
-    const [docAtualizado, setDocAtualizado] = useState('')
-    const [nomeLiderTecnico, setNomeLiderTecnico] = useState('');
-    const [nomeGerenteProjeto, setNomeGerenteProjeto] = useState('');
-    const [nomeResponsavelSuporte, setNomeResponsavelSuporte] = useState('');
-    const [existeSuporteTecnicoDisponivel, setExisteSuporteTecnicoDisponivel] = useState('');
-    const [horarioSuporte, setHorarioSuporte] = useState('')
-    const [formaImplementacaoMedidaSeguranca, setFormaImplementacaoMedidaSeguranca] = useState('')
-    const [normaConformidade, setNormaConformidade] = useState('')
-    const [foiImplementadoQual, setFoiImplementadoQual] = useState('')
+    const { showNotification } = useNotification();
+    const [formData, setFormData] = useState(initialState);
+
+    const handleFieldChange = (section, field, value) => {
+        setFormData(prev => ({
+            ...prev,
+            [section]: {
+                ...prev[section],
+                [field]: value
+            }
+        }));
+    };
+
+    const handleNestedFieldChange = (section, nestedSection, field, value) => {
+        setFormData(prev => ({
+            ...prev,
+            [section]: {
+                ...prev[section],
+                [nestedSection]: {
+                    ...prev[section][nestedSection],
+                    [field]: value
+                }
+            }
+        }));
+    };
 
     useEffect(() => {
-        console.log('projetoExistente:', projetoExistente);
-        console.log('modoEdicao:', modoEdicao);
-    
         if (projetoExistente && modoEdicao) {
             try {
-                // Informações Gerais
-                setNomeProjeto(projetoExistente.informacoes_gerais?.nome_projeto || '');
-                setDescricaoResumida(projetoExistente.informacoes_gerais?.descricao_resumida || '');
-                setDataPreenchimento(projetoExistente.informacoes_gerais?.data_preenchimento?.split('T')[0] || '');
-                setNomeResponsavelPreenchimento(projetoExistente.informacoes_gerais?.responsavel?.nome || '');
-                setCargoResponsavelPreenchimento(projetoExistente.informacoes_gerais?.responsavel?.cargo || '');
-                setTelefoneResponsavelPreenchimento(projetoExistente.informacoes_gerais?.responsavel?.telefone || '');
-                setEmailResponsavelPreenchimento(projetoExistente.informacoes_gerais?.responsavel?.email || '');
-        
-                // Status Desenvolvimento
-                setDataInicial(projetoExistente.status_desenvolvimento?.data_inicial?.split('T')[0] || '');
-                setDataFinal(projetoExistente.status_desenvolvimento?.data_final?.split('T')[0] || '');
-                setStatus(projetoExistente.status_desenvolvimento?.status_atual || '');
-        
-                // Tecnologias
-                setFrontend(projetoExistente.tecnologias_utilizadas?.frontend || '');
-                setTecnologiasBackend(projetoExistente.tecnologias_utilizadas?.backend || '');
-                setTecnologiasBancoDeDados(projetoExistente.tecnologias_utilizadas?.banco_dados || '');
-                setTecnologiasAPIs(projetoExistente.tecnologias_utilizadas?.apis || '');
-        
-                // Metodologia
-                setQualMetodologiaAplicada(projetoExistente.metodologia?.metodologia_aplicada || '');
-        
-                // Testes
-                setPassouPorTestes(projetoExistente.testes_qualidade?.passou_por_testes || '');
-                setQuaisTestes(projetoExistente.testes_qualidade?.tipos_testes || '');
-        
-                // Ambiente
-                setDeployAutomatizado(projetoExistente.ambiente_implementacao?.deploy_automatizado || '');
-                setDeployEstruturado(projetoExistente.ambiente_implementacao?.deploy_estruturado || '');
-                setImplementado(projetoExistente.ambiente_implementacao?.implementado || '');
-                setRollbackAutomatico(projetoExistente.ambiente_implementacao?.rollback_automatico || '');
-                setFoiImplementadoQual(projetoExistente.ambiente_implementacao?.ambiente_implementado || '');
-        
-                // Documentação
-                setDocumentacaoTecnica(projetoExistente.documentacao?.possui_documentacao || '');
-                setSelectedOptions(projetoExistente.documentacao?.tipos_documentos || []);
-                setOutrosDocumentosTecnicos(projetoExistente.documentacao?.outros_documentos || '');
-                setDocAtualizado(projetoExistente.documentacao?.documentacao_atualizada || '');
-        
-                // Equipe e Suporte
-                setNomeLiderTecnico(projetoExistente.equipe_suporte?.lider_tecnico || '');
-                setNomeGerenteProjeto(projetoExistente.equipe_suporte?.gerente_projeto || '');
-                setNomeResponsavelSuporte(projetoExistente.equipe_suporte?.responsavel_suporte || '');
-                setExisteSuporteTecnicoDisponivel(projetoExistente.equipe_suporte?.suporte_disponivel || '');
-                setHorarioSuporte(projetoExistente.equipe_suporte?.horario_suporte || '');
-        
-                // Segurança
-                setFormaImplementacaoMedidaSeguranca(projetoExistente.seguranca_conformidade?.medidas_seguranca || '');
-                setNormaConformidade(projetoExistente.seguranca_conformidade?.normas_conformidade || '');
+                const formatarData = (data) => data?.split('T')[0] || '';
+                
+                if (!projetoExistente.informacoes_gerais || !projetoExistente.status_desenvolvimento) {
+                    throw new Error('Dados do projeto inválidos');
+                }
+                
+                setFormData({
+                    ...projetoExistente,
+                    informacoes_gerais: {
+                        ...projetoExistente.informacoes_gerais,
+                        data_preenchimento: formatarData(projetoExistente.informacoes_gerais?.data_preenchimento)
+                    },
+                    status_desenvolvimento: {
+                        ...projetoExistente.status_desenvolvimento,
+                        data_inicial: formatarData(projetoExistente.status_desenvolvimento?.data_inicial),
+                        data_final: formatarData(projetoExistente.status_desenvolvimento?.data_final)
+                    }
+                });
             } catch (error) {
                 console.error('Erro ao carregar dados do projeto:', error);
+                showNotification('Erro ao carregar dados do projeto', 'error');
             }
         }
-    }, [projetoExistente, modoEdicao]);
+    }, [projetoExistente, modoEdicao, showNotification]);
+
+    useEffect(() => {
+        return () => {
+            setFormData(initialState); // Limpa o formulário quando o componente é desmontado
+        };
+    }, []);
+
+    const validateForm = () => {
+        if (!formData) {
+            showNotification('Erro ao validar formulário', 'error');
+            return false;
+        }
+        const requiredFields = {
+            'nome_projeto': 'Nome do projeto',
+            'descricao_resumida': 'Descrição',
+            'data_preenchimento': 'Data de preenchimento'
+        };
+
+        for (const [field, label] of Object.entries(requiredFields)) {
+            if (!formData.informacoes_gerais[field]) {
+                showNotification(`${label} é obrigatório`, 'error');
+                return false;
+            }
+        }
+
+        if (!formData.informacoes_gerais.responsavel.nome || 
+            !formData.informacoes_gerais.responsavel.email) {
+            showNotification('Nome e email do responsável são obrigatórios', 'error');
+            return false;
+        }
+
+        return true;
+    };
+
 
     const handleSave = async () => {
         try {
-            const formData = {
-                informacoes_gerais: {
-                    nome_projeto: nomeProjeto,
-                    descricao_resumida: descricaoResumida,
-                    data_preenchimento: dataPreenchimento,
-                    responsavel: {
-                        nome: nomeResponsavelPreenchimento,
-                        cargo: cargoResponsavelPreenchimento,
-                        telefone: telefoneResponsavelPreenchimento,
-                        email: emailResponsavelPreenchimento
-                    }
-                },
-                status_desenvolvimento: {
-                    data_inicial: dataInicial,
-                    data_final: dataFinal,
-                    status_atual: status
-                },
-                tecnologias_utilizadas: {
-                    frontend: frontend,
-                    backend: tecnologiasBackend,
-                    banco_dados: tecnologiasBancoDeDados,
-                    apis: tecnologiasAPIs
-                },
-                metodologia: {
-                    metodologia_aplicada: qualMetodologiaAplicada
-                },
-                testes_qualidade: {
-                    passou_por_testes: passouPorTestes,
-                    tipos_testes: quaisTestes
-                },
-                ambiente_implementacao: {
-                    deploy_automatizado: deployAutomatizado,
-                    deploy_estruturado: deployEstruturado,
-                    implementado: implementado,
-                    ambiente_implementado: foiImplementadoQual,
-                    rollback_automatico: rollbackAutomatico
-                },
-                documentacao: {
-                    possui_documentacao: documentacaoTecnica,
-                    tipos_documentos: selectedOptions,
-                    outros_documentos: outrosDocumentosTecnicos,
-                    documentacao_atualizada: docAtualizado
-                },
-                equipe_suporte: {
-                    lider_tecnico: nomeLiderTecnico,
-                    gerente_projeto: nomeGerenteProjeto,
-                    responsavel_suporte: nomeResponsavelSuporte,
-                    suporte_disponivel: existeSuporteTecnicoDisponivel,
-                    horario_suporte: horarioSuporte
-                },
-                seguranca_conformidade: {
-                    medidas_seguranca: formaImplementacaoMedidaSeguranca,
-                    normas_conformidade: normaConformidade
-                }
-            };
+            if (!validateForm()) return;
     
-            const url = modoEdicao 
-                ? `http://localhost:3333/api/projetos/${projetoExistente.id}`
-                : 'http://localhost:3333/api/projetos';
+            const response = await (modoEdicao 
+                ? projetoService.atualizar(projetoExistente.id, formData)
+                : projetoService.criar(formData));
     
-            const method = modoEdicao ? 'PUT' : 'POST';
-    
-            const response = await fetch(url, {
-                method: method,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            });
-    
-            if (response.ok) {
-                const data = await response.json();
-                adicionarProjeto(data);
-                alert(modoEdicao ? 'Projeto atualizado com sucesso!' : 'Projeto salvo com sucesso!');
+            if (response?.data) {
+                showNotification(`Projeto ${modoEdicao ? 'atualizado' : 'criado'} com sucesso!`, 'success');
+                adicionarProjeto(response.data);
+                limparFormulario();
                 fecharModal();
             } else {
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Erro ao salvar o projeto');
+                throw new Error('Resposta inválida do servidor');
             }
         } catch (error) {
             console.error('Erro:', error);
-            alert(error.message || 'Erro ao salvar os dados');
+            showNotification(error.message || 'Erro ao salvar o projeto', 'error');
         }
     };
 
     const lidarComEnvio = async (evento) => {
         evento.preventDefault();
-        try {
-            await handleSave();
-        } catch (error) {
-            console.error('Erro ao salvar:', error);
-        }
-    }
+        await handleSave();
+    };
 
     const sairAoClicarForaDoModal = (evento) => {
         if(evento.target === evento.currentTarget){
-            fecharModal()
+            if (verificarMudancas()) {
+                if (window.confirm('Existem alterações não salvas. Deseja realmente sair?')) {
+                    limparFormulario();
+                    fecharModal();
+                }
+            } else {
+                fecharModal();
+            }
         }
-    }
+    };
 
-    return(
-        <div className={styles.containerModal} onClick={sairAoClicarForaDoModal}>
-            <div className={styles.modal}>
-                <h2>{modoEdicao ? 'Editar Projeto' : 'Adicionar Projeto'}</h2>
-                <form onSubmit={lidarComEnvio}>
-                    <fieldset>
-                        <legend>Informações do Projeto</legend>
-                        <FieldsetInfoGerais
-                            nomeProjeto={nomeProjeto}
-                            setNomeProjeto={setNomeProjeto}
-                            descricaoResumida={descricaoResumida}
-                            setDescricaoResumida={setDescricaoResumida}
-                            dataPreenchimento={dataPreenchimento}
-                            setDataPreenchimento={setDataPreenchimento}
-                            nomeResponsavelPreenchimento={nomeResponsavelPreenchimento}
-                            setNomeResponsavelPreenchimento={setNomeResponsavelPreenchimento}
-                            cargoResponsavelPreenchimento={cargoResponsavelPreenchimento}
-                            setCargoResponsavelPreenchimento={setCargoResponsavelPreenchimento}
-                            telefoneResponsavelPreenchimento={telefoneResponsavelPreenchimento}
-                            setTelefoneResponsavelPreenchimento={setTelefoneResponsavelPreenchimento}
-                            emailResponsavelPreenchimento={emailResponsavelPreenchimento}
-                            setEmailResponsavelPreenchimento={setEmailResponsavelPreenchimento}
-                        />
-                        <FieldsetStatusDesen
-                            dataInicial={dataInicial}
-                            setDataInicial={setDataInicial}
-                            dataFinal={dataFinal}
-                            setDataFinal={setDataFinal}
-                            status={status}
-                            setStatus={setStatus}
-                        />
-                        <FieldSetTecUtili
-                            frontend={frontend}
-                            setFrontend={setFrontend}
-                            tecnologiasBackend={tecnologiasBackend}
-                            setTecnologiasBackend={setTecnologiasBackend}
-                            tecnologiasBancoDeDados={tecnologiasBancoDeDados}
-                            setTecnologiasBancoDeDados={setTecnologiasBancoDeDados}
-                            tecnologiasAPIs={tecnologiasAPIs}
-                            setTecnologiasAPIs={setTecnologiasAPIs}
-                        />
-                        <FieldsetMetodologiaAplicada
-                            qualMetodologiaAplicada={qualMetodologiaAplicada}
-                            setQualMetodologiaAplicada={setQualMetodologiaAplicada}
-                        />
-                        <FieldsetTestesEQualidade
-                            passouPorTestes={passouPorTestes}
-                            setPassouPorTestes={setPassouPorTestes}
-                            quaisTestes={quaisTestes}
-                            setQuaisTestes={setQuaisTestes}
-                        />
-                        <FieldsetAmbienteImplem
-                            deployAutomatizado={deployAutomatizado}
-                            setDeployAutomatizado={setDeployAutomatizado}
-                            deployEstruturado={deployEstruturado}
-                            setDeployEstruturado={setDeployEstruturado}
-                            implementado={implementado}
-                            setImplementado={setImplementado}
-                            rollbackAutomatico={rollbackAutomatico}
-                            setRollbackAutomatico={setRollbackAutomatico}
-                        foiImplementadoQual={foiImplementadoQual}
-                        setFoiImplementadoQual={setFoiImplementadoQual}
-                        />
-                        <FieldsetDocumentacao
-                        documentacaoTecnica={documentacaoTecnica}
-                        setDocumentacaoTecnica={setDocumentacaoTecnica}
-                        selectedOptions={selectedOptions}
-                        setSelectedOptions={setSelectedOptions}
-                        outrosDocumentosTecnicos={outrosDocumentosTecnicos}
-                        setOutrosDocumentosTecnicos={setOutrosDocumentosTecnicos}
-                        docAtualizado={docAtualizado}
-                        setDocAtualizado={setDocAtualizado}
-                        />
-                        <FieldsetEquipeESuporte
-                        nomeLiderTecnico={nomeLiderTecnico}
-                        setNomeLiderTecnico={setNomeLiderTecnico}
-                        nomeGerenteProjeto={nomeGerenteProjeto}
-                        setNomeGerenteProjeto={setNomeGerenteProjeto}
-                        nomeResponsavelSuporte={nomeResponsavelSuporte}
-                        setNomeResponsavelSuporte={setNomeResponsavelSuporte}
-                        existeSuporteTecnicoDisponivel={existeSuporteTecnicoDisponivel}
-                        setExisteSuporteTecnicoDisponivel={setExisteSuporteTecnicoDisponivel}
-                        horarioSuporte={horarioSuporte}
-                        setHorarioSuporte={setHorarioSuporte}
-                        />
-                        <FieldsetSegurancaEConformidade
-                        formaImplementacaoMedidaSeguranca={formaImplementacaoMedidaSeguranca}
-                        setFormaImplementacaoMedidaSeguranca={setFormaImplementacaoMedidaSeguranca}
-                        normaConformidade={normaConformidade}
-                        setNormaConformidade={setNormaConformidade}
-                        />
-                    </fieldset>
-                    <div className={styles.containerBotoesModal}>
-                        <button
-                            type="button"
-                            onClick={fecharModal}
-                        >Cancelar</button>
-                        <button
-                            type="button"
-                            onClick={handleSave}
-                        >Salvar
-                        </button>
-                    </div>
-                </form>
-            </div>
+    const limparFormulario = () => {
+        setFormData(initialState);
+    };
+
+    const verificarMudancas = () => {
+        return Object.keys(formData).some(key => {
+            const section = formData[key];
+            return Object.values(section).some(value => 
+                Array.isArray(value) ? value.length > 0 : Boolean(value)
+            );
+        });
+    };
+
+    const handleCancelar = () => {
+        if (verificarMudancas()) {
+            if (window.confirm('Existem alterações não salvas. Deseja realmente sair?')) {
+                limparFormulario();
+                fecharModal();
+            }
+        } else {
+            fecharModal();
+        }
+    };
+
+return (
+    <div className={styles.containerModal} onClick={sairAoClicarForaDoModal}>
+        <div className={styles.modal}>
+            <h2>{modoEdicao ? 'Editar Projeto' : 'Adicionar Projeto'}</h2>
+            <form onSubmit={lidarComEnvio}>
+                <fieldset>
+                    <legend>Informações do Projeto</legend>
+                    <FieldsetInfoGerais
+                        nomeProjeto={formData.informacoes_gerais.nome_projeto}
+                        setNomeProjeto={(value) => handleFieldChange('informacoes_gerais', 'nome_projeto', value)}
+                        descricaoResumida={formData.informacoes_gerais.descricao_resumida}
+                        setDescricaoResumida={(value) => handleFieldChange('informacoes_gerais', 'descricao_resumida', value)}
+                        dataPreenchimento={formData.informacoes_gerais.data_preenchimento}
+                        setDataPreenchimento={(value) => handleFieldChange('informacoes_gerais', 'data_preenchimento', value)}
+                        nomeResponsavelPreenchimento={formData.informacoes_gerais.responsavel.nome}
+                        setNomeResponsavelPreenchimento={(value) => handleNestedFieldChange('informacoes_gerais', 'responsavel', 'nome', value)}
+                        cargoResponsavelPreenchimento={formData.informacoes_gerais.responsavel.cargo}
+                        setCargoResponsavelPreenchimento={(value) => handleNestedFieldChange('informacoes_gerais', 'responsavel', 'cargo', value)}
+                        telefoneResponsavelPreenchimento={formData.informacoes_gerais.responsavel.telefone}
+                        setTelefoneResponsavelPreenchimento={(value) => handleNestedFieldChange('informacoes_gerais', 'responsavel', 'telefone', value)}
+                        emailResponsavelPreenchimento={formData.informacoes_gerais.responsavel.email}
+                        setEmailResponsavelPreenchimento={(value) => handleNestedFieldChange('informacoes_gerais', 'responsavel', 'email', value)}
+                    />
+                    <FieldsetStatusDesen
+                        dataInicial={formData.status_desenvolvimento.data_inicial}
+                        setDataInicial={(value) => handleFieldChange('status_desenvolvimento', 'data_inicial', value)}
+                        dataFinal={formData.status_desenvolvimento.data_final}
+                        setDataFinal={(value) => handleFieldChange('status_desenvolvimento', 'data_final', value)}
+                        status={formData.status_desenvolvimento.status_atual}
+                        setStatus={(value) => handleFieldChange('status_desenvolvimento', 'status_atual', value)}
+                    />
+                    <FieldSetTecUtili
+                        frontend={formData.tecnologias_utilizadas.frontend}
+                        setFrontend={(value) => handleFieldChange('tecnologias_utilizadas', 'frontend', value)}
+                        tecnologiasBackend={formData.tecnologias_utilizadas.backend}
+                        setTecnologiasBackend={(value) => handleFieldChange('tecnologias_utilizadas', 'backend', value)}
+                        tecnologiasBancoDeDados={formData.tecnologias_utilizadas.banco_dados}
+                        setTecnologiasBancoDeDados={(value) => handleFieldChange('tecnologias_utilizadas', 'banco_dados', value)}
+                        tecnologiasAPIs={formData.tecnologias_utilizadas.apis}
+                        setTecnologiasAPIs={(value) => handleFieldChange('tecnologias_utilizadas', 'apis', value)}
+                    />
+                    <FieldsetMetodologiaAplicada
+                        qualMetodologiaAplicada={formData.metodologia.metodologia_aplicada}
+                        setQualMetodologiaAplicada={(value) => handleFieldChange('metodologia', 'metodologia_aplicada', value)}
+                    />
+                    <FieldsetTestesEQualidade
+                        passouPorTestes={formData.testes_qualidade.passou_por_testes}
+                        setPassouPorTestes={(value) => handleFieldChange('testes_qualidade', 'passou_por_testes', value)}
+                        quaisTestes={formData.testes_qualidade.tipos_testes}
+                        setQuaisTestes={(value) => handleFieldChange('testes_qualidade', 'tipos_testes', value)}
+                    />
+                    <FieldsetAmbienteImplem
+                        deployAutomatizado={formData.ambiente_implementacao.deploy_automatizado}
+                        setDeployAutomatizado={(value) => handleFieldChange('ambiente_implementacao', 'deploy_automatizado', value)}
+                        deployEstruturado={formData.ambiente_implementacao.deploy_estruturado}
+                        setDeployEstruturado={(value) => handleFieldChange('ambiente_implementacao', 'deploy_estruturado', value)}
+                        implementado={formData.ambiente_implementacao.implementado}
+                        setImplementado={(value) => handleFieldChange('ambiente_implementacao', 'implementado', value)}
+                        rollbackAutomatico={formData.ambiente_implementacao.rollback_automatico}
+                        setRollbackAutomatico={(value) => handleFieldChange('ambiente_implementacao', 'rollback_automatico', value)}
+                        foiImplementadoQual={formData.ambiente_implementacao.ambiente_implementado}
+                        setFoiImplementadoQual={(value) => handleFieldChange('ambiente_implementacao', 'ambiente_implementado', value)}
+                    />
+                    <FieldsetDocumentacao
+                        documentacaoTecnica={formData.documentacao.possui_documentacao}
+                        setDocumentacaoTecnica={(value) => handleFieldChange('documentacao', 'possui_documentacao', value)}
+                        selectedOptions={formData.documentacao.tipos_documentos}
+                        setSelectedOptions={(value) => handleFieldChange('documentacao', 'tipos_documentos', value)}
+                        outrosDocumentosTecnicos={formData.documentacao.outros_documentos}
+                        setOutrosDocumentosTecnicos={(value) => handleFieldChange('documentacao', 'outros_documentos', value)}
+                        docAtualizado={formData.documentacao.documentacao_atualizada}
+                        setDocAtualizado={(value) => handleFieldChange('documentacao', 'documentacao_atualizada', value)}
+                    />
+                    <FieldsetEquipeESuporte
+                        nomeLiderTecnico={formData.equipe_suporte.lider_tecnico}
+                        setNomeLiderTecnico={(value) => handleFieldChange('equipe_suporte', 'lider_tecnico', value)}
+                        nomeGerenteProjeto={formData.equipe_suporte.gerente_projeto}
+                        setNomeGerenteProjeto={(value) => handleFieldChange('equipe_suporte', 'gerente_projeto', value)}
+                        nomeResponsavelSuporte={formData.equipe_suporte.responsavel_suporte}
+                        setNomeResponsavelSuporte={(value) => handleFieldChange('equipe_suporte', 'responsavel_suporte', value)}
+                        existeSuporteTecnicoDisponivel={formData.equipe_suporte.suporte_disponivel}
+                        setExisteSuporteTecnicoDisponivel={(value) => handleFieldChange('equipe_suporte', 'suporte_disponivel', value)}
+                        horarioSuporte={formData.equipe_suporte.horario_suporte}
+                        setHorarioSuporte={(value) => handleFieldChange('equipe_suporte', 'horario_suporte', value)}
+                    />
+                    <FieldsetSegurancaEConformidade
+                        formaImplementacaoMedidaSeguranca={formData.seguranca_conformidade.medidas_seguranca}
+                        setFormaImplementacaoMedidaSeguranca={(value) => handleFieldChange('seguranca_conformidade', 'medidas_seguranca', value)}
+                        normaConformidade={formData.seguranca_conformidade.normas_conformidade}
+                        setNormaConformidade={(value) => handleFieldChange('seguranca_conformidade', 'normas_conformidade', value)}
+                    />
+                </fieldset>
+                <div className={styles.containerBotoesModal}>
+                    <button type="button" onClick={handleCancelar}>
+                        Cancelar
+                    </button>
+                    <button type="submit">
+                        Salvar
+                    </button>
+                </div>
+            </form>
         </div>
-    )
-}
+    </div>
+    );
+};
 
-export default ModalProjeto
+export default ModalProjeto;

@@ -1,119 +1,66 @@
-import knex from '../database/knex.js';
+import { Router } from 'express';
+import { ProjetoController } from '../controllers/ProjetoController.js';
+import { validateProject } from '../middlewares/validateProject.js';
+import { logRequest } from '../middlewares/logRequest.js';
+import { apiLimiter } from '../middlewares/rateLimiter.js';
+import { errorHandler } from '../middlewares/errorHandler.js';
 
-export class Project {
-    static async create(data) {
-        // Define boolean fields
-        const booleanFields = [
-            'passou_por_testes',
-            'deploy_automatizado',
-            'deploy_estruturado',
-            'implementado',
-            'rollback_automatico',
-            'possui_documentacao',
-            'documentacao_atualizada',
-            'suporte_disponivel'
-        ];
+const router = Router();
 
-        // Process the data
-        const processedData = { ...data };
-        booleanFields.forEach(field => {
-            if (field in processedData) {
-                processedData[field] = Boolean(processedData[field]);
-            }
-        });
+// Aplicar middleware de log em todas as rotas
+router.use(logRequest);
 
-        // Handle array fields
-        if (processedData.tipos_testes && !Array.isArray(processedData.tipos_testes)) {
-            processedData.tipos_testes = processedData.tipos_testes.split(',').map(item => item.trim());
-        }
-        if (processedData.tipos_documentos && !Array.isArray(processedData.tipos_documentos)) {
-            processedData.tipos_documentos = processedData.tipos_documentos.split(',').map(item => item.trim());
-        }
+// Rotas básicas com rate limiting
+router.get('/', 
+    apiLimiter,
+    ProjetoController.getAll
+);
 
-        return knex('projects').insert(processedData).returning('*');
-    }
+router.get('/:id', 
+    apiLimiter,
+    ProjetoController.getById
+);
 
-    static async getAll(page = 1, limit = 10) {
-        const offset = (page - 1) * limit;
-        
-        const [count] = await knex('projects').count();
-        const projects = await knex('projects')
-            .select('*')
-            .offset(offset)
-            .limit(limit)
-            .orderBy('created_at', 'desc');
-    
-        return {
-            data: projects,
-            total: parseInt(count.count),
-            currentPage: page,
-            totalPages: Math.ceil(parseInt(count.count) / limit)
-        };
-    }
+router.post('/', 
+    apiLimiter,
+    validateProject,
+    ProjetoController.create
+);
 
-    static async getById(id) {
-        return knex('projects').where({ id }).first();
-    }
+router.put('/:id', 
+    apiLimiter,
+    validateProject,
+    ProjetoController.update
+);
 
-    static async update(id, data) {
-        // Define boolean fields
-        const booleanFields = [
-            'passou_por_testes',
-            'deploy_automatizado',
-            'deploy_estruturado',
-            'implementado',
-            'rollback_automatico',
-            'possui_documentacao',
-            'documentacao_atualizada',
-            'suporte_disponivel'
-        ];
+router.delete('/:id', 
+    apiLimiter,
+    ProjetoController.delete
+);
 
-        // Process the data
-        const processedData = { ...data };
-        booleanFields.forEach(field => {
-            if (field in processedData) {
-                processedData[field] = Boolean(processedData[field]);
-            }
-        });
+// Novas rotas
+router.get('/search/projects',
+    apiLimiter,
+    ProjetoController.search
+);
 
-        // Handle array fields
-        if (processedData.tipos_testes && !Array.isArray(processedData.tipos_testes)) {
-            processedData.tipos_testes = processedData.tipos_testes.split(',').map(item => item.trim());
-        }
-        if (processedData.tipos_documentos && !Array.isArray(processedData.tipos_documentos)) {
-            processedData.tipos_documentos = processedData.tipos_documentos.split(',').map(item => item.trim());
-        }
+router.get('/statistics/overview',
+    apiLimiter,
+    ProjetoController.getStatistics
+);
 
-        return knex('projects')
-            .where({ id })
-            .update({
-                ...processedData,
-                updated_at: knex.fn.now()
-            })
-            .returning('*');
-    }
+router.put('/bulk/update',
+    apiLimiter,
+    validateProject,
+    ProjetoController.bulkUpdate
+);
 
-    static async delete(id) {
-        return knex('projects').where({ id }).del();
-    }
+router.get('/export/data',
+    apiLimiter,
+    ProjetoController.export
+);
 
-    static async search(query) {
-        return knex('projects')
-            .where('nome_projeto', 'ilike', `%${query}%`)
-            .orWhere('descricao_resumida', 'ilike', `%${query}%`)
-            .orWhere('responsavel_nome', 'ilike', `%${query}%`)
-            .orderBy('created_at', 'desc');
-    }
+// Middleware de tratamento de erros deve ser o último
+router.use(errorHandler);
 
-    static async getStatistics() {
-        const [totalCount] = await knex('projects').count();
-        const [implementedCount] = await knex('projects').where('implementado', true).count();
-        const [documentedCount] = await knex('projects').where('possui_documentacao', true).count();
-        
-        return {
-            total: parseInt(totalCount.count),
-            implemented: parseInt(implementedCount.count),
-            documented: parseInt(documentedCount.count)
-        };
-    }
-}
+export default router;

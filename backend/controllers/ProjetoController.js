@@ -1,111 +1,122 @@
 import { Project } from '../models/Project.js';
+import { cacheManager } from '../utils/cache.js';
+import { logger } from '../utils/logger.js';
+import { ValidationError, NotFoundError } from '../utils/errors.js';
 
 export class ProjetoController {
-    static async create(req, res) {
-        try {
-            const [project] = await Project.create(req.body);
-            return res.status(201).json({
-                success: true,
-                data: project,
-                message: 'Projeto criado com sucesso'
-            });
-        } catch (error) {
-            console.error('Erro ao criar projeto:', error);
-            return res.status(500).json({
-                success: false,
-                error: 'Erro interno do servidor',
-                message: error.message
-            });
-        }
-    }
+    // ... existing create, getAll, getById, update, and delete methods ...
 
-    static async getAll(req, res) {
+    static async search(req, res) {
         try {
+            const { query, status, responsavel } = req.query;
             const page = parseInt(req.query.page) || 1;
             const limit = parseInt(req.query.limit) || 10;
-            const projects = await Project.getAll(page, limit);
+            
+            const cacheKey = `search_${query}_${status}_${responsavel}_page${page}_limit${limit}`;
+            
+            const results = await cacheManager.getOrSet(
+                cacheKey,
+                () => Project.search({ query, status, responsavel, page, limit }),
+                300 // Cache por 5 minutos
+            );
+            
+            logger.logToFile(`Busca realizada: "${query}", status: ${status}, responsável: ${responsavel}`, 'project');
             
             return res.json({
                 success: true,
-                ...projects,
-                message: 'Projetos recuperados com sucesso'
+                data: results,
+                message: 'Busca realizada com sucesso'
             });
         } catch (error) {
-            console.error('Erro ao buscar projetos:', error);
+            logger.logToFile(`Erro na busca: ${error.message}`, 'error');
             return res.status(500).json({
                 success: false,
-                error: 'Erro ao buscar projetos',
+                error: 'Erro ao realizar busca',
                 message: error.message
             });
         }
     }
 
-    static async getById(req, res) {
+    static async getStatistics(req, res) {
         try {
-            const project = await Project.getById(req.params.id);
-            if (!project) {
-                return res.status(404).json({
-                    success: false,
-                    error: 'Projeto não encontrado'
-                });
-            }
+            const cacheKey = 'project_statistics';
+            
+            const stats = await cacheManager.getOrSet(
+                cacheKey,
+                () => Project.getStatistics(),
+                1800 // Cache por 30 minutos
+            );
+            
+            logger.logToFile('Estatísticas recuperadas', 'project');
+            
             return res.json({
                 success: true,
-                data: project,
-                message: 'Projeto encontrado com sucesso'
+                data: stats,
+                message: 'Estatísticas recuperadas com sucesso'
             });
         } catch (error) {
-            console.error('Erro ao buscar projeto:', error);
+            logger.logToFile(`Erro ao buscar estatísticas: ${error.message}`, 'error');
             return res.status(500).json({
                 success: false,
-                error: 'Erro ao buscar projeto',
+                error: 'Erro ao buscar estatísticas',
                 message: error.message
             });
         }
     }
 
-    static async update(req, res) {
+    static async bulkUpdate(req, res) {
         try {
-            const [project] = await Project.update(req.params.id, req.body);
-            if (!project) {
-                return res.status(404).json({
-                    success: false,
-                    error: 'Projeto não encontrado'
-                });
+            const { ids, data } = req.body;
+            
+            if (!Array.isArray(ids) || ids.length === 0) {
+                throw new ValidationError('IDs inválidos');
             }
+
+            const updatedProjects = await Project.bulkUpdate(ids, data);
+            
+            // Invalida caches relacionados aos projetos
+            ids.forEach(id => cacheManager.invalidate(`project_${id}`));
+            cacheManager.invalidatePattern('projects_list');
+            
+            logger.logToFile(`Atualização em lote: ${ids.join(', ')}`, 'project');
+            
             return res.json({
                 success: true,
-                data: project,
-                message: 'Projeto atualizado com sucesso'
+                data: updatedProjects,
+                message: 'Projetos atualizados com sucesso'
             });
         } catch (error) {
-            console.error('Erro ao atualizar projeto:', error);
+            logger.logToFile(`Erro na atualização em lote: ${error.message}`, 'error');
             return res.status(500).json({
                 success: false,
-                error: 'Erro ao atualizar projeto',
+                error: 'Erro ao atualizar projetos',
                 message: error.message
             });
         }
     }
 
-    static async delete(req, res) {
+    static async export(req, res) {
         try {
-            const deleted = await Project.delete(req.params.id);
-            if (!deleted) {
-                return res.status(404).json({
-                    success: false,
-                    error: 'Projeto não encontrado'
-                });
-            }
-            return res.status(200).json({
-                success: true,
-                message: 'Projeto excluído com sucesso'
-            });
+            const { format } = req.query;
+            const cacheKey = `export_${format}`;
+            
+            const exportData = await cacheManager.getOrSet(
+                cacheKey,
+                () => Project.exportData(format),
+                600 // Cache por 10 minutos
+            );
+            
+            logger.logToFile(`Exportação realizada: formato ${format}`, 'project');
+            
+            res.setHeader('Content-Type', format === 'csv' ? 'text/csv' : 'application/json');
+            res.setHeader('Content-Disposition', `attachment; filename=projetos.${format}`);
+            
+            return res.send(exportData);
         } catch (error) {
-            console.error('Erro ao excluir projeto:', error);
+            logger.logToFile(`Erro na exportação: ${error.message}`, 'error');
             return res.status(500).json({
                 success: false,
-                error: 'Erro ao excluir projeto',
+                error: 'Erro ao exportar dados',
                 message: error.message
             });
         }
